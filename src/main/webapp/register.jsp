@@ -195,28 +195,9 @@
         text-decoration: underline;
       }
 
-      .password-strength {
-        margin-top: 5px;
-        font-size: 12px;
-      }
 
-      .strength-weak {
-        color: #dc3545;
-      }
 
-      .strength-medium {
-        color: #fd7e14;
-      }
 
-      .strength-strong {
-        color: #28a745;
-      }
-
-      .form-help {
-        font-size: 12px;
-        color: #666;
-        margin-top: 5px;
-      }
     </style>
   </head>
   <body>
@@ -247,7 +228,7 @@
               autocomplete="username"
               value="${param.username}"
             />
-            <div class="form-help">用户名长度为3-20个字符，只能包含字母、数字和下划线</div>
+
           </div>
 
           <div class="form-group">
@@ -259,7 +240,7 @@
               placeholder="请输入手机号码"
               value="${param.phone}"
             />
-            <div class="form-help">可选，用于接收重要通知</div>
+
           </div>
 
           <div class="form-group">
@@ -272,8 +253,8 @@
               placeholder="请输入密码"
               autocomplete="new-password"
             />
-            <div id="passwordStrength" class="password-strength"></div>
-            <div class="form-help">密码长度至少6位，建议包含字母、数字和特殊字符</div>
+
+
           </div>
 
           <div class="form-group">
@@ -295,7 +276,7 @@
               <option value="borrower" ${param.role == 'borrower' ? 'selected' : ''}>工具使用者</option>
               <option value="provider" ${param.role == 'provider' ? 'selected' : ''}>工具提供者</option>
             </select>
-            <div class="form-help">工具使用者：可以借用他人的工具；工具提供者：可以出借自己的工具给他人</div>
+
           </div>
 
           <button type="submit" class="register-button" id="registerButton">
@@ -312,115 +293,21 @@
 
     <script>
       $(document).ready(function() {
-        // 密码强度检测
-        function checkPasswordStrength(password) {
-          var strength = 0;
-          var strengthText = '';
-          var strengthClass = '';
-          
-          if (password.length >= 6) strength++;
-          if (password.match(/[a-z]/)) strength++;
-          if (password.match(/[A-Z]/)) strength++;
-          if (password.match(/[0-9]/)) strength++;
-          if (password.match(/[^a-zA-Z0-9]/)) strength++;
-          
-          switch(strength) {
-            case 0:
-            case 1:
-              strengthText = '密码强度：弱';
-              strengthClass = 'strength-weak';
-              break;
-            case 2:
-            case 3:
-              strengthText = '密码强度：中等';
-              strengthClass = 'strength-medium';
-              break;
-            case 4:
-            case 5:
-              strengthText = '密码强度：强';
-              strengthClass = 'strength-strong';
-              break;
-          }
-          
-          $('#passwordStrength').text(strengthText).attr('class', 'password-strength ' + strengthClass);
-        }
-        
-        // 密码输入时检测强度
-        $('#password').on('input', function() {
-          var password = $(this).val();
-          if (password.length > 0) {
-            checkPasswordStrength(password);
-          } else {
-            $('#passwordStrength').text('').attr('class', 'password-strength');
-          }
-        });
-        
-        // 表单提交验证
+        // 表单提交验证（仅判空）
         $('#registerForm').submit(function(e) {
           var username = $('#username').val().trim();
           var password = $('#password').val();
           var confirmPassword = $('#confirmPassword').val();
-          var phone = $('#phone').val().trim();
           var role = $('#role').val();
 
-          // 基础验证
+          // 基础判空验证
           if (!username || !password || !confirmPassword || !role) {
             e.preventDefault();
             alert('请填写所有必填项');
             return false;
           }
-
-          // 用户名验证
-          if (username.length < 3 || username.length > 20) {
-            e.preventDefault();
-            alert('用户名长度必须在3-20个字符之间');
-            $('#username').focus();
-            return false;
-          }
-
-          if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-            e.preventDefault();
-            alert('用户名只能包含字母、数字和下划线');
-            $('#username').focus();
-            return false;
-          }
-
-          // 密码验证
-          if (password.length < 6) {
-            e.preventDefault();
-            alert('密码长度至少6位');
-            $('#password').focus();
-            return false;
-          }
-
-          // 确认密码验证
-          if (password !== confirmPassword) {
-            e.preventDefault();
-            alert('两次输入的密码不一致');
-            $('#confirmPassword').focus();
-            return false;
-          }
-
-          // 手机号格式验证（如果填写了）
-          if (phone && !/^1[3-9]\d{9}$/.test(phone)) {
-            e.preventDefault();
-            alert('请输入有效的手机号码');
-            $('#phone').focus();
-            return false;
-          }
-
-          // 显示加载状态
-          var $btn = $('#registerButton');
-          $btn.prop('disabled', true).html('<span class="loading">⏳</span> 注册中...');
         });
-        
-        // 输入框焦点效果
-        $('input, select').focus(function() {
-          $(this).parent().addClass('focused');
-        }).blur(function() {
-          $(this).parent().removeClass('focused');
-        });
-        
+
         // 错误消息自动消失
         $('.error-message, .success-message').delay(5000).fadeOut();
       });

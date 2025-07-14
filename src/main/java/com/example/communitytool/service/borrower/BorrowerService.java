@@ -3,11 +3,13 @@ package com.example.communitytool.service.borrower;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.example.communitytool.dao.BorrowRecordDAO;
 import com.example.communitytool.dao.ReviewDAO;
 import com.example.communitytool.dao.ToolDAO;
 import com.example.communitytool.dto.BorrowRecordToolsDTO;
+import com.example.communitytool.dto.ToolsReviewDTO;
 import com.example.communitytool.pojo.BorrowRecord;
 import com.example.communitytool.pojo.Review;
 import com.example.communitytool.pojo.Tool;
@@ -35,10 +37,20 @@ public class BorrowerService {
      * 获取所有闲置工具列表
      * @return 闲置状态的工具列表，获取失败时返回空列表
      */
-    public List<Tool> getAvailableTools() {
+    public List<ToolsReviewDTO> getAvailableTools() {
         try {
             // 获取状态为"闲置"的工具
-            return toolDAO.findByStatus(Tool.STATUS_AVAILABLE);
+            List<Tool> tools = toolDAO.findByStatus(Tool.STATUS_AVAILABLE);
+            List<ToolsReviewDTO> toolsReviewDTOs = new ArrayList<>();
+            for (Tool tool : tools) {
+                List<Review> reviews = reviewDAO.findByToolId(tool.getToolId());
+                // 只获取状态为通过的评价
+                reviews = reviews.stream()
+                    .filter(review -> Review.STATUS_APPROVED.equals(review.getStatus()))
+                    .collect(Collectors.toList());
+                toolsReviewDTOs.add(new ToolsReviewDTO(tool, reviews));
+            }
+            return toolsReviewDTOs;
         } catch (Exception e) {
             System.err.println("获取闲置工具列表失败: " + e.getMessage());
             return new ArrayList<>();
@@ -50,14 +62,24 @@ public class BorrowerService {
      * @param toolName 工具名称关键词，支持模糊搜索
      * @return 匹配的闲置工具列表，搜索失败时返回空列表
      */
-    public List<Tool> searchAvailableTools(String toolName) {
+    public List<ToolsReviewDTO> searchAvailableTools(String toolName) {
         try {
             if (toolName == null || toolName.trim().isEmpty()) {
                 // 如果搜索关键词为空，返回所有闲置工具
                 return getAvailableTools();
             }
             // 按工具名称模糊搜索闲置工具
-            return toolDAO.searchAvailableToolsByName(toolName.trim());
+            List<Tool> tools = toolDAO.searchAvailableToolsByName(toolName.trim());
+            List<ToolsReviewDTO> toolsReviewDTOs = new ArrayList<>();
+            for (Tool tool : tools) {
+                List<Review> reviews = reviewDAO.findByToolId(tool.getToolId());
+                // 只获取状态为通过的评价
+                reviews = reviews.stream()
+                    .filter(review -> Review.STATUS_APPROVED.equals(review.getStatus()))
+                    .collect(Collectors.toList());
+                toolsReviewDTOs.add(new ToolsReviewDTO(tool, reviews));
+            }
+            return toolsReviewDTOs;
         } catch (Exception e) {
             System.err.println("搜索闲置工具失败: " + e.getMessage());
             return new ArrayList<>();

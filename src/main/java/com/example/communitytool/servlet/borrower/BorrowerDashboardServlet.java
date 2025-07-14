@@ -3,7 +3,7 @@ package com.example.communitytool.servlet.borrower;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.communitytool.pojo.Tool;
+import com.example.communitytool.dto.ToolsReviewDTO;
 import com.example.communitytool.pojo.User;
 import com.example.communitytool.service.borrower.BorrowerService;
 
@@ -36,7 +36,7 @@ public class BorrowerDashboardServlet extends HttpServlet {
             // 获取搜索关键词
             String searchKeyword = request.getParameter("search");
 
-            List<Tool> availableTools;
+            List<ToolsReviewDTO> availableTools;
             if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
                 // 如果有搜索关键词，进行搜索
                 availableTools = borrowerService.searchAvailableTools(searchKeyword);

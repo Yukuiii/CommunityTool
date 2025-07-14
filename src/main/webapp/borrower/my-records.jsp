@@ -359,18 +359,22 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       .rating-container {
         display: flex;
         justify-content: center;
-        gap: 10px;
-        margin-bottom: 10px;
+        gap: 15px;
+        margin-bottom: 15px;
       }
 
-      .star {
-        font-size: 30px;
-        color: #ddd;
+      .rating-option {
+        display: flex;
+        align-items: center;
+        gap: 5px;
         cursor: pointer;
+        font-size: 14px;
+        color: #333;
       }
 
-      .star.active {
-        color: #ffc107;
+      .rating-option input[type="radio"] {
+        margin: 0;
+        cursor: pointer;
       }
 
       .form-group textarea {
@@ -623,13 +627,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           </c:when>
           <c:otherwise>
             <div class="empty-state">
-              <div>📦</div>
               <p>您还没有租借任何工具</p>
-              <p style="font-size: 14px; margin-top: 10px">
-                <a href="${pageContext.request.contextPath}/borrower/dashboard"
-                  >去租借工具 →</a
-                >
-              </p>
             </div>
           </c:otherwise>
         </c:choose>
@@ -656,13 +654,27 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <div class="form-group">
             <label>评分 *</label>
             <div class="rating-container">
-              <span class="star" data-rating="1">★</span>
-              <span class="star" data-rating="2">★</span>
-              <span class="star" data-rating="3">★</span>
-              <span class="star" data-rating="4">★</span>
-              <span class="star" data-rating="5">★</span>
+              <label class="rating-option">
+                <input type="radio" name="rating" value="1" required />
+                1分
+              </label>
+              <label class="rating-option">
+                <input type="radio" name="rating" value="2" required />
+                2分
+              </label>
+              <label class="rating-option">
+                <input type="radio" name="rating" value="3" required />
+                3分
+              </label>
+              <label class="rating-option">
+                <input type="radio" name="rating" value="4" required />
+                4分
+              </label>
+              <label class="rating-option">
+                <input type="radio" name="rating" value="5" required />
+                5分
+              </label>
             </div>
-            <input type="hidden" id="rating" name="rating" required />
           </div>
 
           <div class="form-group">
@@ -705,9 +717,8 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         $("#reviewModal").show();
 
         // 重置表单
-        $("#rating").val("");
+        $("input[name='rating']").prop("checked", false);
         $("#comment").val("");
-        $(".star").removeClass("active");
       }
 
       // 关闭评价模态框
@@ -715,22 +726,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         $("#reviewModal").hide();
       }
 
-      // 星级评分功能
       $(document).ready(function () {
-        let selectedRating = 0;
-
-        // 星星点击事件
-        $(".star").click(function () {
-          selectedRating = $(this).data("rating");
-          $("#rating").val(selectedRating);
-
-          // 更新星星显示
-          $(".star").removeClass("active");
-          for (let i = 1; i <= selectedRating; i++) {
-            $('.star[data-rating="' + i + '"]').addClass("active");
-          }
-        });
-
         // 点击模态框外部关闭
         $(window).click(function (event) {
           if (event.target.id === "reviewModal") {

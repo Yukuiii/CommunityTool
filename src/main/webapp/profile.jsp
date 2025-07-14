@@ -353,7 +353,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <div class="form-group">
             <label for="userId">用户ID</label>
             <input type="text" id="userId" value="${user.userId}" disabled />
-            <div class="info-text">用户ID不可修改</div>
           </div>
 
           <div class="form-group">
@@ -367,7 +366,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
               maxlength="50"
               placeholder="请输入用户名"
             />
-            <div class="info-text">用户名用于登录系统</div>
           </div>
 
           <div class="form-group">
@@ -380,7 +378,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
               maxlength="20"
               placeholder="请输入手机号"
             />
-            <div class="info-text">手机号用于联系</div>
           </div>
 
           <div class="form-group">
@@ -391,7 +388,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
               value="${user.role == 'provider' ? '工具提供者' : '工具使用者'}"
               disabled
             />
-            <div class="info-text">用户角色不可修改</div>
           </div>
 
           <div class="form-group">
@@ -401,9 +397,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
               id="password"
               name="password"
               placeholder="如不修改密码请留空"
-              minlength="6"
             />
-            <div class="info-text">留空表示不修改密码，密码长度至少6位</div>
           </div>
 
           <div class="form-buttons">

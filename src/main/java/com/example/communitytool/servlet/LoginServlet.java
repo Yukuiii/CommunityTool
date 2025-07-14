@@ -46,11 +46,11 @@ public class LoginServlet extends HttpServlet {
             userRole = "admin";
         } else if ("borrower".equals(loginType)) {
             // 工具使用者登录验证
-            loginSuccess = loginService.userLogin(username.trim(), password);
+            loginSuccess = loginService.userLogin(username.trim(), password, loginType);
             userRole = "borrower";
         } else if ("provider".equals(loginType)) {
             // 工具提供者登录验证
-            loginSuccess = loginService.userLogin(username.trim(), password);
+            loginSuccess = loginService.userLogin(username.trim(), password, loginType);
             userRole = "provider";
         }
         

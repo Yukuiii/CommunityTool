@@ -561,7 +561,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                         <button
                           type="button"
                           class="btn btn-danger btn-sm"
-                          onclick="showDeleteConfirm('${tool.toolId}', '${tool.toolName}')"
+                          onclick="deleteTool('${tool.toolId}')"
                         >
                           删除
                         </button>
@@ -701,40 +701,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       </div>
     </div>
 
-    <!-- 删除确认模态框 -->
-    <div id="deleteConfirmModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title">确认删除</h3>
-          <span class="close" onclick="closeDeleteConfirmModal()">&times;</span>
-        </div>
-        <div class="modal-body">
-          <p>确定要删除工具 "<span id="deleteToolName"></span>" 吗？</p>
-          <p style="color: #dc3545; font-size: 14px; margin-top: 10px">
-            <strong>警告：</strong
-            >此操作不可撤销，工具的所有相关数据也将被删除。
-          </p>
-        </div>
-        <form
-          method="post"
-          action="${pageContext.request.contextPath}/admin/tool-manager"
-        >
-          <input type="hidden" name="action" value="delete" />
-          <input type="hidden" id="deleteToolId" name="toolId" />
-          <div class="modal-actions">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              onclick="closeDeleteConfirmModal()"
-            >
-              取消
-            </button>
-            <button type="submit" class="btn btn-danger">确认删除</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
     <script>
       $(document).ready(function () {
         // 自动隐藏消息提示
@@ -779,30 +745,43 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         document.getElementById("editToolModal").style.display = "none";
       }
 
-      // 显示删除确认模态框
-      function showDeleteConfirm(toolId, toolName) {
-        document.getElementById("deleteToolId").value = toolId;
-        document.getElementById("deleteToolName").textContent = toolName;
-        document.getElementById("deleteConfirmModal").style.display = "block";
-      }
+      // 直接删除工具
+      function deleteTool(toolId) {
+        // 创建表单并提交删除请求
+        const form = $("<form>", {
+          method: "POST",
+          action: "${pageContext.request.contextPath}/admin/tool-manager",
+        });
 
-      // 关闭删除确认模态框
-      function closeDeleteConfirmModal() {
-        document.getElementById("deleteConfirmModal").style.display = "none";
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "action",
+            value: "delete",
+          })
+        );
+
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "toolId",
+            value: toolId,
+          })
+        );
+
+        $("body").append(form);
+        form.submit();
       }
 
       // 点击模态框外部关闭
       window.onclick = function (event) {
         var addModal = document.getElementById("addToolModal");
         var editModal = document.getElementById("editToolModal");
-        var deleteModal = document.getElementById("deleteConfirmModal");
 
         if (event.target == addModal) {
           closeAddToolModal();
         } else if (event.target == editModal) {
           closeEditToolModal();
-        } else if (event.target == deleteModal) {
-          closeDeleteConfirmModal();
         }
       };
     </script>

@@ -4,7 +4,6 @@ import com.example.communitytool.dao.AdminDAO;
 import com.example.communitytool.dao.UserDAO;
 import com.example.communitytool.pojo.Admin;
 import com.example.communitytool.pojo.User;
-import com.example.communitytool.util.PasswordUtil;
 
 /**
  * 登录服务类
@@ -29,7 +28,7 @@ public class LoginService {
      * @param password 密码
      * @return 是否登录成功
      */
-    public boolean userLogin(String username, String password) {
+    public boolean userLogin(String username, String password, String role) {
         try {
 
             // 查找用户
@@ -38,14 +37,13 @@ public class LoginService {
                 return false;
             }
 
-            // 验证密码
-            boolean passwordValid = false;
-            String storedPassword = user.getPassword();
 
+            // 验证用户角色
+            if(!user.getRole().equals(role)){
+                return false;
+            }
             // 验证密码
-            passwordValid = PasswordUtil.verifyPassword(password, storedPassword);
-
-            if (passwordValid) {
+            if (password.equals(user.getPassword())) {
                 System.out.println("用户登录成功：" + username);
                 return true;
             } else {
@@ -90,14 +88,9 @@ public class LoginService {
                 return false;
             }
 
-            // 验证密码
-            boolean passwordValid = false;
-            String storedPassword = admin.getPassword();
 
             // 验证密码
-            passwordValid = PasswordUtil.verifyPassword(password, storedPassword);
-
-            if (passwordValid) {
+            if (password.equals(admin.getPassword())) {
                 System.out.println("管理员登录成功：" + adminId + " (" + admin.getRealName() + ")");
                 return true;
             } else {

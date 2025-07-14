@@ -172,12 +172,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         border-radius: 10px;
         padding: 20px;
         background: #fafafa;
-        transition: all 0.3s ease;
-      }
-
-      .review-card:hover {
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
       }
 
       .review-header {

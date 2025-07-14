@@ -63,10 +63,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 14px;
       }
 
-      .logout-btn:hover {
-        background: #c82333;
-      }
-
       .container {
         max-width: 1200px;
         margin: 0 auto;
@@ -183,12 +179,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border: 1px solid #e9ecef;
         border-radius: 8px;
         padding: 20px;
-        transition: all 0.3s ease;
-      }
-
-      .tool-card:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
       }
 
       .tool-name {
@@ -232,16 +222,92 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border-radius: 6px;
         cursor: pointer;
         font-size: 14px;
-        transition: background 0.3s ease;
-      }
-
-      .rent-btn:hover {
-        background: #0056b3;
       }
 
       .rent-btn:disabled {
         background: #6c757d;
         cursor: not-allowed;
+      }
+
+      /* 评价展示样式 */
+      .reviews-section {
+        margin-bottom: 15px;
+        padding: 15px 0;
+        border-top: 1px solid #e9ecef;
+      }
+
+      .reviews-header {
+        margin-bottom: 10px;
+      }
+
+      .reviews-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #495057;
+      }
+
+      .reviews-list {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .review-item {
+        padding: 8px 0;
+        border-bottom: 1px solid #f8f9fa;
+      }
+
+      .review-item:last-child {
+        border-bottom: none;
+      }
+
+      .review-rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+
+      .star {
+        color: #ddd;
+        font-size: 14px;
+        margin-right: 2px;
+      }
+
+      .star.filled {
+        color: #ffc107;
+      }
+
+      .rating-text {
+        margin-left: 8px;
+        font-size: 12px;
+        color: #6c757d;
+      }
+
+      .review-content {
+        font-size: 13px;
+        color: #495057;
+        line-height: 1.4;
+        margin-bottom: 5px;
+      }
+
+      .review-time {
+        font-size: 11px;
+        color: #6c757d;
+      }
+
+      .more-reviews {
+        text-align: center;
+        font-size: 12px;
+        color: #6c757d;
+        padding: 8px 0;
+        font-style: italic;
+      }
+
+      .no-reviews {
+        text-align: center;
+        font-size: 13px;
+        color: #6c757d;
+        padding: 10px 0;
+        font-style: italic;
       }
 
       .empty-state {
@@ -288,7 +354,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         width: 450px;
         max-width: 90%;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        animation: modalSlideIn 0.3s ease;
       }
 
       .payment-methods {
@@ -303,17 +368,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border-radius: 8px;
         margin-bottom: 15px;
         cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .payment-method:hover {
-        border-color: #007bff;
-        background-color: #f8f9ff;
-      }
-
-      .payment-method.selected {
-        border-color: #007bff;
-        background-color: #e7f3ff;
       }
 
       .payment-method input[type="radio"] {
@@ -377,6 +431,50 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         color: #28a745;
       }
 
+      /* 模态框组件样式 */
+      .modal-header {
+        padding: 20px 20px 0 20px;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .modal-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c3e50;
+        padding-bottom: 15px;
+      }
+
+      .modal-footer {
+        padding: 20px;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .modal-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .modal-btn-cancel {
+        background: #6c757d;
+        color: white;
+      }
+
+      .modal-btn-confirm {
+        background: #007bff;
+        color: white;
+      }
+
       .user-role-badge {
         display: inline-block;
         padding: 6px 12px;
@@ -419,12 +517,10 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border: 2px solid #e9ecef;
         border-radius: 6px;
         font-size: 14px;
-        transition: border-color 0.3s ease;
       }
 
       .search-input:focus {
         outline: none;
-        border-color: #007bff;
       }
 
       .search-btn {
@@ -435,12 +531,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border-radius: 6px;
         cursor: pointer;
         font-size: 14px;
-        transition: background-color 0.3s ease;
         white-space: nowrap;
-      }
-
-      .search-btn:hover {
-        background: #0056b3;
       }
 
       .clear-search-btn {
@@ -452,12 +543,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         cursor: pointer;
         font-size: 14px;
         text-decoration: none;
-        transition: background-color 0.3s ease;
         white-space: nowrap;
-      }
-
-      .clear-search-btn:hover {
-        background: #545b62;
       }
 
       .search-result-info {
@@ -578,21 +664,78 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <c:choose>
           <c:when test="${not empty availableTools}">
             <div class="tools-grid">
-              <c:forEach var="tool" items="${availableTools}">
+              <c:forEach var="toolReviewDTO" items="${availableTools}">
                 <div class="tool-card">
-                  <div class="tool-name">${tool.toolName}</div>
-                  <div class="tool-description">${tool.description}</div>
+                  <div class="tool-name">${toolReviewDTO.tool.toolName}</div>
+                  <div class="tool-description">
+                    ${toolReviewDTO.tool.description}
+                  </div>
                   <div class="tool-info">
-                    <div class="tool-fee">¥${tool.rentalFee}/天</div>
+                    <div class="tool-fee">
+                      ¥${toolReviewDTO.tool.rentalFee}/天
+                    </div>
                     <div class="tool-provider">
-                      提供者ID: ${tool.providerId}
+                      提供者ID: ${toolReviewDTO.tool.providerId}
                     </div>
                   </div>
+
+                  <!-- 评价信息展示 -->
+                  <div class="reviews-section">
+                    <c:choose>
+                      <c:when test="${not empty toolReviewDTO.reviews}">
+                        <div class="reviews-header">
+                          <span class="reviews-title"
+                            >用户评价 (${toolReviewDTO.reviews.size()}条)</span
+                          >
+                        </div>
+                        <div class="reviews-list">
+                          <c:forEach
+                            var="review"
+                            items="${toolReviewDTO.reviews}"
+                            varStatus="status"
+                          >
+                            <c:if test="${status.index < 3}">
+                              <!-- 最多显示3条评价 -->
+                              <div class="review-item">
+                                <div class="review-rating">
+                                  <c:forEach begin="1" end="5" var="star">
+                                    <span
+                                      class="star ${star <= review.rating ? 'filled' : ''}"
+                                      >★</span
+                                    >
+                                  </c:forEach>
+                                  <span class="rating-text"
+                                    >${review.rating}分</span
+                                  >
+                                </div>
+                                <div class="review-content">
+                                  ${review.reviewContent}
+                                </div>
+                                <div class="review-time">
+                                  ${review.createdAt.toString().substring(0,
+                                  19).replace('T', ' ')}
+                                </div>
+                              </div>
+                            </c:if>
+                          </c:forEach>
+                          <c:if test="${toolReviewDTO.reviews.size() > 3}">
+                            <div class="more-reviews">
+                              还有${toolReviewDTO.reviews.size() - 3}条评价...
+                            </div>
+                          </c:if>
+                        </div>
+                      </c:when>
+                      <c:otherwise>
+                        <div class="no-reviews">暂无评价</div>
+                      </c:otherwise>
+                    </c:choose>
+                  </div>
+
                   <button
                     type="button"
                     class="rent-btn"
-                    data-tool-id="${tool.toolId}"
-                    data-rental-fee="${tool.rentalFee}"
+                    data-tool-id="${toolReviewDTO.tool.toolId}"
+                    data-rental-fee="${toolReviewDTO.tool.rentalFee}"
                     onclick="showPaymentModalDirectly(this)"
                   >
                     立即租借
@@ -605,22 +748,10 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
             <div class="empty-state">
               <c:choose>
                 <c:when test="${not empty searchKeyword}">
-                  <div>🔍</div>
                   <p>未找到匹配的工具</p>
-                  <p style="font-size: 14px; margin-top: 10px">
-                    尝试使用其他关键词搜索，或
-                    <a
-                      href="${pageContext.request.contextPath}/borrower/dashboard"
-                      >查看所有工具</a
-                    >
-                  </p>
                 </c:when>
                 <c:otherwise>
-                  <div>📦</div>
                   <p>暂无可租借的工具</p>
-                  <p style="font-size: 14px; margin-top: 10px">
-                    请稍后再来查看
-                  </p>
                 </c:otherwise>
               </c:choose>
             </div>
@@ -649,7 +780,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
               value="wechat"
               id="wechatPay"
             />
-            <div class="payment-icon wechat-icon">💬</div>
             <div class="payment-info">
               <div class="payment-name">微信支付</div>
               <div class="payment-desc">使用微信支付</div>
@@ -663,7 +793,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
               value="alipay"
               id="alipayPay"
             />
-            <div class="payment-icon alipay-icon">💰</div>
             <div class="payment-info">
               <div class="payment-name">支付宝支付</div>
               <div class="payment-desc">使用支付宝支付</div>
@@ -727,7 +856,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         // 重置支付方式选择
         selectedPaymentMethod = null;
         $("input[name='paymentMethod']").prop("checked", false);
-        $(".payment-method").removeClass("selected");
         $("#confirmPaymentBtn").prop("disabled", true);
 
         // 显示支付模态框
@@ -750,7 +878,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         // 重置支付方式选择
         selectedPaymentMethod = null;
         $("input[name='paymentMethod']").prop("checked", false);
-        $(".payment-method").removeClass("selected");
         $("#confirmPaymentBtn").prop("disabled", true);
 
         // 显示支付模态框
@@ -770,15 +897,12 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         selectedPaymentMethod = method;
 
         // 更新UI状态
-        $(".payment-method").removeClass("selected");
         $("input[name='paymentMethod']").prop("checked", false);
 
         if (method === "wechat") {
           $("#wechatPay").prop("checked", true);
-          $("#wechatPay").closest(".payment-method").addClass("selected");
         } else if (method === "alipay") {
           $("#alipayPay").prop("checked", true);
-          $("#alipayPay").closest(".payment-method").addClass("selected");
         }
 
         // 启用确认支付按钮

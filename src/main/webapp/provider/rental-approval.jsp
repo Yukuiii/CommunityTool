@@ -64,9 +64,7 @@
         font-size: 14px;
       }
 
-      .logout-btn:hover {
-        background: #c82333;
-      }
+
 
       .container {
         max-width: 1200px;
@@ -176,13 +174,7 @@
         border-radius: 8px;
         padding: 20px;
         border-left: 4px solid #007bff;
-        transition: all 0.3s ease;
         border: 1px solid #e9ecef;
-      }
-
-      .request-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
 
       .request-header {
@@ -254,7 +246,6 @@
         border-radius: 6px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s ease;
         text-decoration: none;
         display: inline-block;
         text-align: center;
@@ -266,20 +257,14 @@
         color: white;
       }
 
-      .btn-approve:hover {
-        background: #218838;
-        transform: translateY(-1px);
-      }
+
 
       .btn-reject {
         background: #dc3545;
         color: white;
       }
 
-      .btn-reject:hover {
-        background: #c82333;
-        transform: translateY(-1px);
-      }
+
 
       .empty-state {
         text-align: center;

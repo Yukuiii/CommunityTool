@@ -10,7 +10,6 @@ import com.example.communitytool.pojo.BorrowRecord;
 import com.example.communitytool.pojo.Review;
 import com.example.communitytool.pojo.Tool;
 import com.example.communitytool.pojo.User;
-import com.example.communitytool.util.PasswordUtil;
 
 /**
  * 管理员服务类
@@ -235,7 +234,7 @@ public class AdminService {
             User updatedUser = new User();
             updatedUser.setUserId(userId);
             updatedUser.setUsername(username != null && !username.trim().isEmpty() ? username : existingUser.getUsername());
-            updatedUser.setPassword(password != null && !password.trim().isEmpty() ? PasswordUtil.encryptPassword(password) : existingUser.getPassword());
+            updatedUser.setPassword(password != null && !password.trim().isEmpty() ? password : existingUser.getPassword());
             updatedUser.setPhone(phone != null && !phone.trim().isEmpty() ? phone : existingUser.getPhone());
             updatedUser.setRole(role != null && !role.trim().isEmpty() ? role : existingUser.getRole());
 
@@ -281,7 +280,7 @@ public class AdminService {
             // 创建新用户对象
             User newUser = new User();
             newUser.setUsername(username.trim());
-            newUser.setPassword(PasswordUtil.encryptPassword(password));
+            newUser.setPassword(password);
             newUser.setPhone(phone != null ? phone.trim() : null);
             newUser.setRole(role.trim());
 

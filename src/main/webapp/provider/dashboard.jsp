@@ -209,61 +209,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         color: #212529;
       }
 
-      .reviews-section {
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px solid #e9ecef;
-      }
-
-      .reviews-title {
-        font-size: 14px;
-        font-weight: 600;
-        color: #495057;
-        margin-bottom: 10px;
-      }
-
-      .review-item {
-        background: #f8f9fa;
-        padding: 10px;
-        border-radius: 6px;
-        margin-bottom: 8px;
-        font-size: 13px;
-      }
-
-      .review-rating {
-        color: #ffc107;
-        font-weight: 600;
-        margin-right: 8px;
-      }
-
-      .review-content {
-        color: #6c757d;
-        margin-top: 5px;
-        line-height: 1.4;
-      }
-
-      .review-status {
-        font-size: 11px;
-        padding: 2px 6px;
-        border-radius: 10px;
-        margin-left: 8px;
-      }
-
-      .review-status.pending {
-        background: #fff3cd;
-        color: #856404;
-      }
-
-      .review-status.approved {
-        background: #d4edda;
-        color: #155724;
-      }
-
-      .review-status.rejected {
-        background: #f8d7da;
-        color: #721c24;
-      }
-
       .empty-state {
         text-align: center;
         color: #6c757d;
@@ -470,59 +415,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                         </c:when>
                       </c:choose>
                     </div>
-
-                    <!-- 评价信息展示 -->
-                    <c:if test="${not empty toolDto.reviews}">
-                      <div class="reviews-section">
-                        <div class="reviews-title">
-                          用户评价 (${toolDto.reviews.size()}条)
-                        </div>
-                        <c:forEach
-                          var="review"
-                          items="${toolDto.reviews}"
-                          begin="0"
-                          end="2"
-                        >
-                          <div class="review-item">
-                            <span class="review-rating">
-                              <c:forEach begin="1" end="${review.rating}"
-                                >★</c:forEach
-                              >
-                              <c:forEach begin="${review.rating + 1}" end="5"
-                                >☆</c:forEach
-                              >
-                            </span>
-                            <span
-                              class="review-status ${review.status == '待审核' ? 'pending' : review.status == '已通过' ? 'approved' : 'rejected'}"
-                            >
-                              ${review.status}
-                            </span>
-                            <c:if test="${not empty review.reviewContent}">
-                              <div class="review-content">
-                                ${review.reviewContent}
-                              </div>
-                            </c:if>
-                            <c:if test="${review.status == '已拒绝'}">
-                              <div class="review-content">
-                                拒绝原因: ${review.reason}
-                              </div>
-                            </c:if>
-                          </div>
-                        </c:forEach>
-                        <c:if test="${toolDto.reviews.size() > 3}">
-                          <div
-                            style="
-                              text-align: center;
-                              margin-top: 8px;
-                              font-size: 12px;
-                              color: #6c757d;
-                            "
-                          >
-                            还有 ${toolDto.reviews.size() - 3} 条评价...
-                          </div>
-                        </c:if>
-                      </div>
-                    </c:if>
                   </div>
                 </c:forEach>
               </div>

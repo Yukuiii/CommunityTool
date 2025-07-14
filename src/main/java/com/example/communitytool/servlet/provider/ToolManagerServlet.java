@@ -51,7 +51,6 @@ public class ToolManagerServlet extends HttpServlet {
                 default:
                     throw new Exception("未知的操作类型: " + action);
             }
-            req.setAttribute("message", "操作成功");
         } catch (Exception e) {
             req.setAttribute("error", e.getMessage());
         }

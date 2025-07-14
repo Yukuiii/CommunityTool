@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import com.example.communitytool.dao.UserDAO;
 import com.example.communitytool.pojo.User;
-import com.example.communitytool.util.PasswordUtil;
 
 /**
  * 用户资料服务类
@@ -40,11 +39,10 @@ public class ProfileService {
             // 如果提供了新密码，进行密码验证和更新
             if(password != null && !password.trim().isEmpty()){
                 // 检查新密码是否与原密码相同
-                if(PasswordUtil.verifyPassword(password, user.getPassword())){
+                if(password.equals(user.getPassword())){
                     throw new Exception("不能和原密码相同");
                 }
-                // 加密新密码并设置
-                user.setPassword(PasswordUtil.encryptPassword(password));
+                user.setPassword(password);
             }
 
             // 更新用户名和手机号

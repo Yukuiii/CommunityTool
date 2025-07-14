@@ -59,12 +59,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         padding: 8px 16px;
         border: 1px solid #dc3545;
         border-radius: 6px;
-        transition: all 0.3s ease;
-      }
-
-      .logout-btn:hover {
-        background: #dc3545;
-        color: white;
       }
 
       .container {
@@ -92,13 +86,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         text-decoration: none;
         padding: 12px 20px;
         border-radius: 8px;
-        transition: all 0.3s ease;
         font-weight: 500;
-      }
-
-      .nav-menu a:hover {
-        background: #e3f2fd;
-        color: #007bff;
       }
 
       .nav-menu a.active {
@@ -185,13 +173,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         border-radius: 8px;
         padding: 20px;
         border-left: 4px solid #007bff;
-        transition: all 0.3s ease;
         border: 1px solid #e9ecef;
-      }
-
-      .request-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
 
       .request-header {
@@ -284,7 +266,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         border-radius: 6px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s ease;
         text-decoration: none;
         display: inline-block;
         text-align: center;
@@ -296,19 +277,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         color: white;
       }
 
-      .btn-approve:hover {
-        background: #218838;
-        transform: translateY(-1px);
-      }
-
       .btn-reject {
         background: #dc3545;
         color: white;
-      }
-
-      .btn-reject:hover {
-        background: #c82333;
-        transform: translateY(-1px);
       }
 
       .btn-primary {
@@ -316,26 +287,14 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         color: white;
       }
 
-      .btn-primary:hover {
-        background: #0056b3;
-      }
-
       .btn-success {
         background: #28a745;
         color: white;
       }
 
-      .btn-success:hover {
-        background: #218838;
-      }
-
       .btn-danger {
         background: #dc3545;
         color: white;
-      }
-
-      .btn-danger:hover {
-        background: #c82333;
       }
 
       .empty-state {
@@ -447,7 +406,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       <div class="requests-container">
         <div class="requests-header">
           <h2 class="requests-title">待审核的工具</h2>
-          <div class="requests-count">${pendingCount} 个待审核</div>
         </div>
 
         <div class="requests-grid">

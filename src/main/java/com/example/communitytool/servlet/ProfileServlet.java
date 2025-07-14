@@ -53,7 +53,6 @@ public class ProfileServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-        request.setAttribute("message", "修改个人信息成功");
         doGet(request, response);
     }
 }
