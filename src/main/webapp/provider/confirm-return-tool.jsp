@@ -419,6 +419,19 @@
                                         <div class="detail-value">${returnItem.tool.toolName}</div>
                                     </div>
                                     <div class="detail-item">
+                                        <div class="detail-label">工具位置</div>
+                                        <div class="detail-value">
+                                            <c:choose>
+                                                <c:when test="${not empty returnItem.tool.location}">
+                                                    ${returnItem.tool.location}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span style="color: #6c757d; font-style: italic">未设置</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                    </div>
+                                    <div class="detail-item">
                                         <div class="detail-label">借用人ID</div>
                                         <div class="detail-value">${returnItem.borrowRecord.userId}</div>
                                     </div>

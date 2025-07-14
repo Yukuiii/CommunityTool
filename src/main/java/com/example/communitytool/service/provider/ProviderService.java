@@ -36,10 +36,11 @@ public class ProviderService {
      * @param providerId 提供者ID
      * @param toolName 工具名称
      * @param description 工具描述
+     * @param location 工具位置
      * @param rentalFee 租金
      * @return 是否上传成功
      */
-    public boolean uploadTool(Integer providerId, String toolName, String description, Integer rentalFee) {
+    public boolean uploadTool(Integer providerId, String toolName, String description, String location, Integer rentalFee) {
         try {
 
             // 创建工具对象
@@ -47,6 +48,7 @@ public class ProviderService {
             tool.setProviderId(providerId);
             tool.setToolName(toolName.trim());
             tool.setDescription(description != null ? description.trim() : "");
+            tool.setLocation(location != null ? location.trim() : null);
             tool.setRentalFee(rentalFee);
             tool.setStatus(Tool.STATUS_PENDING); // 设置为待审核状态
 
@@ -244,10 +246,11 @@ public class ProviderService {
      * 验证工具上传数据的有效性
      * @param toolName 工具名称
      * @param description 工具描述
+     * @param location 工具位置
      * @param rentalFee 租金
      * @return 验证错误信息，null表示验证通过
      */
-    public String validateToolData(String toolName, String description, Integer rentalFee) {
+    public String validateToolData(String toolName, String description, String location, Integer rentalFee) {
         if (toolName == null || toolName.trim().isEmpty()) {
             return "工具名称不能为空";
         }
@@ -258,6 +261,10 @@ public class ProviderService {
 
         if (description != null && description.trim().length() > 500) {
             return "工具描述不能超过500字符";
+        }
+
+        if (location != null && location.trim().length() > 200) {
+            return "工具位置不能超过200字符";
         }
 
         if (rentalFee == null) {

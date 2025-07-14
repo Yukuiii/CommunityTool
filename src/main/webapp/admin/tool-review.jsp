@@ -442,6 +442,21 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                       <div class="detail-value">¥${tool.rentalFee}/天</div>
                     </div>
                     <div class="detail-item">
+                      <div class="detail-label">工具位置</div>
+                      <div class="detail-value">
+                        <c:choose>
+                          <c:when test="${not empty tool.location}">
+                            ${tool.location}
+                          </c:when>
+                          <c:otherwise>
+                            <span style="color: #6c757d; font-style: italic"
+                              >未设置</span
+                            >
+                          </c:otherwise>
+                        </c:choose>
+                      </div>
+                    </div>
+                    <div class="detail-item">
                       <div class="detail-label">提交时间</div>
                       <div class="detail-value">
                         ${tool.createdAt.toString().substring(0,

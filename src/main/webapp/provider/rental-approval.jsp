@@ -415,6 +415,23 @@
                       <div class="detail-value">${request.borrowRecord.toolId}</div>
                     </div>
                     <div class="detail-item">
+                      <div class="detail-label">工具名称</div>
+                      <div class="detail-value">${request.tool.toolName}</div>
+                    </div>
+                    <div class="detail-item">
+                      <div class="detail-label">工具位置</div>
+                      <div class="detail-value">
+                        <c:choose>
+                          <c:when test="${not empty request.tool.location}">
+                            ${request.tool.location}
+                          </c:when>
+                          <c:otherwise>
+                            <span style="color: #6c757d; font-style: italic">未设置</span>
+                          </c:otherwise>
+                        </c:choose>
+                      </div>
+                    </div>
+                    <div class="detail-item">
                       <div class="detail-label">租金</div>
                       <div class="detail-value">¥${request.borrowRecord.rentalFee}</div>
                     </div>

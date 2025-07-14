@@ -365,6 +365,18 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                       租金: ¥${toolDto.tool.rentalFee}/天
                     </div>
                     <div class="tool-info">
+                      <c:choose>
+                        <c:when test="${not empty toolDto.tool.location}">
+                          位置: ${toolDto.tool.location}
+                        </c:when>
+                        <c:otherwise>
+                          <span style="color: #6c757d; font-style: italic"
+                            >位置: 未设置</span
+                          >
+                        </c:otherwise>
+                      </c:choose>
+                    </div>
+                    <div class="tool-info">
                       <span
                         class="status-badge status-${toolDto.tool.status == '待审核' ? 'pending' : toolDto.tool.status == '闲置' ? 'available' : toolDto.tool.status == '已借出' ? 'rented' : toolDto.tool.status == '已拒绝' ? 'rejected' : 'offline'}"
                         >${toolDto.tool.status}</span

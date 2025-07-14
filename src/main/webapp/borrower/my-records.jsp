@@ -544,6 +544,18 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                     <div class="tool-provider">
                       提供者ID: ${record.tool.providerId}
                     </div>
+                    <div class="tool-location">
+                      <c:choose>
+                        <c:when test="${not empty record.tool.location}">
+                          位置: ${record.tool.location}
+                        </c:when>
+                        <c:otherwise>
+                          <span style="color: #6c757d; font-style: italic"
+                            >位置: 未设置</span
+                          >
+                        </c:otherwise>
+                      </c:choose>
+                    </div>
                   </div>
 
                   <!-- 时间信息显示 -->

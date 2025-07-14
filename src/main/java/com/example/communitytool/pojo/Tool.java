@@ -23,6 +23,7 @@ public class Tool {
     private Integer rentalFee;        // 工具租金
     private String status;            // 工具状态(待审核/已拒绝/闲置/已借出/下架)
     private String reason;            // 拒绝原因
+    private String location;          // 工具位置
 
     // 时间字段
     private LocalDateTime createdAt;  // 创建时间

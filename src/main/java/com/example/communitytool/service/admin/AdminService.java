@@ -342,10 +342,11 @@ public class AdminService {
      * @param toolId 工具ID
      * @param toolName 工具名称
      * @param description 工具描述
+     * @param location 工具位置
      * @param rentalFee 租金
      * @throws Exception 编辑失败时抛出异常
      */
-    public void editTool(Integer toolId, String toolName, String description, String rentalFee) throws Exception {
+    public void editTool(Integer toolId, String toolName, String description, String location, String rentalFee) throws Exception {
         try {
             // 检查工具是否存在
             Tool existingTool = toolDAO.findById(toolId);
@@ -373,7 +374,7 @@ public class AdminService {
             }
 
             // 更新工具信息
-            boolean success = toolDAO.updateTool(toolId, toolName.trim(), description.trim(), fee);
+            boolean success = toolDAO.updateTool(toolId, toolName.trim(), description.trim(), location != null ? location.trim() : null, fee);
             if (!success) {
                 throw new Exception("更新工具信息失败");
             }
@@ -387,10 +388,11 @@ public class AdminService {
      * 添加工具
      * @param toolName 工具名称
      * @param description 工具描述
+     * @param location 工具位置
      * @param rentalFee 租金
      * @throws Exception 添加失败时抛出异常
      */
-    public void addTool(String toolName, String description, String rentalFee) throws Exception {
+    public void addTool(String toolName, String description, String location, String rentalFee) throws Exception {
         try {
             // 验证输入参数
             if (toolName == null || toolName.trim().isEmpty()) {
@@ -415,6 +417,7 @@ public class AdminService {
             Tool tool = new Tool();
             tool.setToolName(toolName.trim());
             tool.setDescription(description.trim());
+            tool.setLocation(location != null ? location.trim() : null);
             tool.setRentalFee(fee);
             tool.setStatus(Tool.STATUS_AVAILABLE); // 管理员添加的工具直接设为闲置状态
             tool.setProviderId(0); // 设置为id为0.标识管理员添加的工具

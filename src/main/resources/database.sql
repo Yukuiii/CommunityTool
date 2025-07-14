@@ -44,6 +44,7 @@ CREATE TABLE tools (
     rental_fee INT NOT NULL DEFAULT 0 COMMENT '工具借用金',
     status VARCHAR(50) NOT NULL DEFAULT '待审核' COMMENT '工具状态(待审核/已拒绝/闲置/已借出/下架)',
     reason TEXT NULL COMMENT '拒绝原因(当状态为已拒绝时填写)',
+    location VARCHAR(200) NULL COMMENT '工具位置',
 
     -- 时间字段
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -54,6 +55,7 @@ CREATE TABLE tools (
     INDEX idx_provider_id (provider_id),
     INDEX idx_status (status),
     INDEX idx_rental_fee (rental_fee),
+    INDEX idx_location (location),
     INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='工具信息表';
 

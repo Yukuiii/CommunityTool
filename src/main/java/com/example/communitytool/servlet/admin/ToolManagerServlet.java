@@ -30,6 +30,7 @@ public class ToolManagerServlet extends HttpServlet {
         String action = request.getParameter("action");
         String toolName = request.getParameter("toolName");
         String description = request.getParameter("description");
+        String location = request.getParameter("location");
         String rentalFee = request.getParameter("rentalFee");
         
         try {
@@ -38,10 +39,10 @@ public class ToolManagerServlet extends HttpServlet {
                     deleteTool(Integer.parseInt(toolId));
                     break;
                 case "edit":
-                    editTool(Integer.parseInt(toolId), toolName, description, rentalFee);
+                    editTool(Integer.parseInt(toolId), toolName, description, location, rentalFee);
                     break;
                 case "add":
-                    addTool(toolName, description, rentalFee);
+                    addTool(toolName, description, location, rentalFee);
                     break;
                 default:
                     throw new Exception("未知的操作类型: " + action);
@@ -61,12 +62,12 @@ public class ToolManagerServlet extends HttpServlet {
         adminService.deleteTool(toolId);
     }
 
-    private void editTool(Integer toolId, String toolName, String description, String rentalFee) throws Exception {
-        adminService.editTool(toolId, toolName, description, rentalFee);
+    private void editTool(Integer toolId, String toolName, String description, String location, String rentalFee) throws Exception {
+        adminService.editTool(toolId, toolName, description, location, rentalFee);
     }
 
-    private void addTool(String toolName, String description, String rentalFee) throws Exception {
-        adminService.addTool(toolName, description, rentalFee);
+    private void addTool(String toolName, String description, String location, String rentalFee) throws Exception {
+        adminService.addTool(toolName, description, location, rentalFee);
     }
     
 }

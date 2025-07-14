@@ -25,7 +25,7 @@ public class ToolDAO {
      */ 
     public Tool findById(Integer toolId) {
         String sql = "SELECT tool_id, tool_name, description, provider_id, rental_fee, status, " +
-                    "created_at, updated_at, reason FROM tools WHERE tool_id = ?";
+                    "created_at, updated_at, reason, location FROM tools WHERE tool_id = ?";
         
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -47,6 +47,7 @@ public class ToolDAO {
                 tool.setRentalFee(rs.getInt("rental_fee"));
                 tool.setStatus(rs.getString("status"));
                 tool.setReason(rs.getString("reason"));
+                tool.setLocation(rs.getString("location"));
                 // 处理时间字段
                 Timestamp createdAt = rs.getTimestamp("created_at");
                 if (createdAt != null) {
@@ -77,7 +78,7 @@ public class ToolDAO {
      */
     public List<Tool> findByStatus(String status) {
         String sql = "SELECT tool_id, tool_name, description, provider_id, rental_fee, status, " +
-                    "created_at, updated_at, reason FROM tools WHERE status = ? ORDER BY created_at DESC";
+                    "created_at, updated_at, reason, location FROM tools WHERE status = ? ORDER BY created_at DESC";
         
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -99,6 +100,7 @@ public class ToolDAO {
                 tool.setRentalFee(rs.getInt("rental_fee"));
                 tool.setStatus(rs.getString("status"));
                 tool.setReason(rs.getString("reason"));
+                tool.setLocation(rs.getString("location"));
                 // 处理时间字段
                 Timestamp createdAt = rs.getTimestamp("created_at");
                 if (createdAt != null) {
@@ -172,20 +174,21 @@ public class ToolDAO {
      * @return 是否插入成功
      */
     public boolean insert(Tool tool) {
-        String sql = "INSERT INTO tools (tool_name, description, provider_id, rental_fee, status) VALUES (?, ?, ?, ?, ?)";
-        
+        String sql = "INSERT INTO tools (tool_name, description, provider_id, rental_fee, status, location) VALUES (?, ?, ?, ?, ?, ?)";
+
         Connection conn = null;
         PreparedStatement pstmt = null;
-        
+
         try {
             conn = DatabaseUtil.getConnection();
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
+
             pstmt.setString(1, tool.getToolName());
             pstmt.setString(2, tool.getDescription());
             pstmt.setInt(3, tool.getProviderId());
             pstmt.setInt(4, tool.getRentalFee());
             pstmt.setString(5, tool.getStatus());
+            pstmt.setString(6, tool.getLocation());
             
             int affectedRows = pstmt.executeUpdate();
             
@@ -216,7 +219,7 @@ public class ToolDAO {
      */
     public List<Tool> findAll() {
         String sql = "SELECT tool_id, tool_name, description, provider_id, rental_fee, status, " +
-                    "created_at, updated_at, reason FROM tools ORDER BY created_at DESC";
+                    "created_at, updated_at, reason, location FROM tools ORDER BY created_at DESC";
         
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -237,6 +240,7 @@ public class ToolDAO {
                 tool.setRentalFee(rs.getInt("rental_fee"));
                 tool.setStatus(rs.getString("status"));
                 tool.setReason(rs.getString("reason"));
+                tool.setLocation(rs.getString("location"));
 
                 // 处理时间字段
                 Timestamp createdAt = rs.getTimestamp("created_at");
@@ -268,7 +272,7 @@ public class ToolDAO {
      */
     public List<Tool> findByProviderId(Integer providerId) {
         String sql = "SELECT tool_id, tool_name, description, provider_id, rental_fee, status, " +
-                    "created_at, updated_at, reason FROM tools WHERE provider_id = ? ORDER BY created_at DESC";
+                    "created_at, updated_at, reason, location FROM tools WHERE provider_id = ? ORDER BY created_at DESC";
         
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -290,6 +294,7 @@ public class ToolDAO {
                 tool.setRentalFee(rs.getInt("rental_fee"));
                 tool.setStatus(rs.getString("status"));
                 tool.setReason(rs.getString("reason"));
+                tool.setLocation(rs.getString("location"));
 
                 // 处理时间字段
                 Timestamp createdAt = rs.getTimestamp("created_at");
@@ -343,11 +348,12 @@ public class ToolDAO {
      * @param toolId 工具ID
      * @param toolName 工具名称
      * @param description 工具描述
+     * @param location 工具位置
      * @param rentalFee 租金
      * @return 是否更新成功
      */
-    public boolean updateTool(Integer toolId, String toolName, String description, Integer rentalFee) {
-        String sql = "UPDATE tools SET tool_name = ?, description = ?, rental_fee = ? WHERE tool_id = ?";
+    public boolean updateTool(Integer toolId, String toolName, String description, String location, Integer rentalFee) {
+        String sql = "UPDATE tools SET tool_name = ?, description = ?, location = ?, rental_fee = ? WHERE tool_id = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -355,8 +361,9 @@ public class ToolDAO {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, toolName);
             pstmt.setString(2, description);
-            pstmt.setInt(3, rentalFee);
-            pstmt.setInt(4, toolId);
+            pstmt.setString(3, location);
+            pstmt.setInt(4, rentalFee);
+            pstmt.setInt(5, toolId);
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
                 DatabaseUtil.commit(conn);
@@ -378,7 +385,7 @@ public class ToolDAO {
      */
     public List<Tool> searchAvailableToolsByName(String toolName) {
         String sql = "SELECT tool_id, tool_name, description, provider_id, rental_fee, status, " +
-                    "created_at, updated_at, reason FROM tools WHERE status = ? AND tool_name LIKE ? " +
+                    "created_at, updated_at, reason, location FROM tools WHERE status = ? AND tool_name LIKE ? " +
                     "ORDER BY created_at DESC";
 
         Connection conn = null;
@@ -402,6 +409,7 @@ public class ToolDAO {
                 tool.setRentalFee(rs.getInt("rental_fee"));
                 tool.setStatus(rs.getString("status"));
                 tool.setReason(rs.getString("reason"));
+                tool.setLocation(rs.getString("location"));
 
                 // 处理时间字段
                 Timestamp createdAt = rs.getTimestamp("created_at");

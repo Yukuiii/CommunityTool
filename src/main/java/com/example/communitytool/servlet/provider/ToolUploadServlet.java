@@ -47,16 +47,46 @@ public class ToolUploadServlet extends HttpServlet {
         // 获取表单参数
         String toolName = request.getParameter("toolName");
         String description = request.getParameter("description");
-        Integer rentalFee = Integer.parseInt(request.getParameter("rentalFee"));
-        
-        // 上传工具
-        providerService.uploadTool(
-            currentUser.getUserId(), 
-            toolName, 
-            description, 
-            rentalFee
-        );
+        String location = request.getParameter("location");
+        String rentalFeeStr = request.getParameter("rentalFee");
 
-        response.sendRedirect(request.getContextPath() + "/provider/dashboard");
+        try {
+            // 验证租金格式
+            Integer rentalFee = null;
+            if (rentalFeeStr != null && !rentalFeeStr.trim().isEmpty()) {
+                rentalFee = Integer.parseInt(rentalFeeStr.trim());
+            }
+
+            // 验证数据有效性
+            String validationError = providerService.validateToolData(toolName, description, location, rentalFee);
+            if (validationError != null) {
+                request.setAttribute("error", validationError);
+                request.setAttribute("toolName", toolName);
+                request.setAttribute("description", description);
+                request.setAttribute("location", location);
+                request.setAttribute("rentalFee", rentalFeeStr);
+                request.getRequestDispatcher("/provider/tool-upload.jsp").forward(request, response);
+                return;
+            }
+
+            // 上传工具
+            boolean success = providerService.uploadTool(
+                currentUser.getUserId(),
+                toolName,
+                description,
+                location,
+                rentalFee
+            );
+
+            if (success) {
+                response.sendRedirect(request.getContextPath() + "/provider/dashboard");
+            } else {
+                request.setAttribute("error", "工具上传失败，请稍后重试");
+                request.getRequestDispatcher("/provider/tool-upload.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            request.setAttribute("error", "工具上传失败，请稍后重试");
+            request.getRequestDispatcher("/provider/tool-upload.jsp").forward(request, response);
+        }
     }
 }

@@ -507,6 +507,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                   <th>工具ID</th>
                   <th>工具名称</th>
                   <th>描述</th>
+                  <th>位置</th>
                   <th>提供者ID</th>
                   <th>租金</th>
                   <th>状态</th>
@@ -521,6 +522,18 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     <td>${tool.toolName}</td>
                     <td class="description-cell" title="${tool.description}">
                       ${tool.description}
+                    </td>
+                    <td class="description-cell" title="${tool.location}">
+                      <c:choose>
+                        <c:when test="${not empty tool.location}">
+                          ${tool.location}
+                        </c:when>
+                        <c:otherwise>
+                          <span style="color: #6c757d; font-style: italic"
+                            >未设置</span
+                          >
+                        </c:otherwise>
+                      </c:choose>
                     </td>
                     <td>
                       <c:choose>
@@ -554,7 +567,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                         <button
                           type="button"
                           class="btn btn-warning btn-sm"
-                          onclick="showEditToolModal('${tool.toolId}', '${tool.toolName}', '${tool.description}', '${tool.rentalFee}')"
+                          onclick="showEditToolModal('${tool.toolId}', '${tool.toolName}', '${tool.description}', '${tool.location}', '${tool.rentalFee}')"
                         >
                           编辑
                         </button>
@@ -617,6 +630,16 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
             ></textarea>
           </div>
           <div class="form-group">
+            <label for="addLocation">工具位置</label>
+            <input
+              type="text"
+              id="addLocation"
+              name="location"
+              placeholder="请输入工具存放位置，如：办公室A座201、仓库B区等"
+              maxlength="200"
+            />
+          </div>
+          <div class="form-group">
             <label for="addRentalFee">租金 (元) *</label>
             <input
               type="number"
@@ -676,6 +699,16 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
             ></textarea>
           </div>
           <div class="form-group">
+            <label for="editLocation">工具位置</label>
+            <input
+              type="text"
+              id="editLocation"
+              name="location"
+              placeholder="请输入工具存放位置，如：办公室A座201、仓库B区等"
+              maxlength="200"
+            />
+          </div>
+          <div class="form-group">
             <label for="editRentalFee">租金 (元) *</label>
             <input
               type="number"
@@ -715,6 +748,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         // 清空表单
         document.getElementById("addToolName").value = "";
         document.getElementById("addDescription").value = "";
+        document.getElementById("addLocation").value = "";
         document.getElementById("addRentalFee").value = "";
         // 聚焦到工具名称输入框
         setTimeout(function () {
@@ -728,10 +762,17 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       }
 
       // 显示编辑工具模态框
-      function showEditToolModal(toolId, toolName, description, rentalFee) {
+      function showEditToolModal(
+        toolId,
+        toolName,
+        description,
+        location,
+        rentalFee
+      ) {
         document.getElementById("editToolId").value = toolId;
         document.getElementById("editToolName").value = toolName;
         document.getElementById("editDescription").value = description;
+        document.getElementById("editLocation").value = location || "";
         document.getElementById("editRentalFee").value = rentalFee;
         document.getElementById("editToolModal").style.display = "block";
         // 聚焦到工具名称输入框

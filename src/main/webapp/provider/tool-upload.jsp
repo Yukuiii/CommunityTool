@@ -430,6 +430,17 @@ ${description}</textarea
               />
             </div>
 
+            <div class="form-group">
+              <label for="location">工具位置</label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                value="${location}"
+                placeholder="请输入工具存放位置，如：办公室A座201、仓库B区等"
+              />
+            </div>
+
             <div class="form-actions">
               <a
                 href="${pageContext.request.contextPath}/provider/dashboard"

@@ -677,6 +677,18 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                     <div class="tool-provider">
                       提供者ID: ${toolReviewDTO.tool.providerId}
                     </div>
+                    <div class="tool-location">
+                      <c:choose>
+                        <c:when test="${not empty toolReviewDTO.tool.location}">
+                          位置: ${toolReviewDTO.tool.location}
+                        </c:when>
+                        <c:otherwise>
+                          <span style="color: #6c757d; font-style: italic"
+                            >位置: 未设置</span
+                          >
+                        </c:otherwise>
+                      </c:choose>
+                    </div>
                   </div>
 
                   <!-- 评价信息展示 -->
