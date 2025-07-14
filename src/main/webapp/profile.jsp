@@ -168,8 +168,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
       .form-group input:focus {
         outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
       }
 
       .form-group input:disabled {
@@ -437,26 +435,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         setTimeout(function () {
           $(".alert").fadeOut();
         }, 5000);
-
-        // 表单提交验证
-        $("#profileForm").submit(function (e) {
-          const username = $("#username").val().trim();
-          const password = $("#password").val();
-
-          if (!username) {
-            alert("请输入用户名！");
-            e.preventDefault();
-            return false;
-          }
-
-          if (password && password.length < 6) {
-            alert("密码长度至少6位！");
-            e.preventDefault();
-            return false;
-          }
-
-          return confirm("确定要保存修改吗？");
-        });
       });
     </script>
   </body>

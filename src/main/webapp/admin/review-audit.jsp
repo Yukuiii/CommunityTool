@@ -273,116 +273,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         margin-bottom: 10px;
       }
 
-      /* 模态框样式 */
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-
-      .modal-content {
-        background-color: white;
-        margin: 10% auto;
-        padding: 30px;
-        border-radius: 10px;
-        width: 90%;
-        max-width: 500px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      }
-
-      .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #dee2e6;
-      }
-
-      .modal-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .close {
-        color: #aaa;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-        line-height: 1;
-      }
-
-      .close:hover {
-        color: #000;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .form-group textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 14px;
-        resize: vertical;
-        min-height: 100px;
-      }
-
-      .form-group textarea:focus {
-        outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-      }
-
-      .modal-actions {
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-        margin-top: 20px;
-      }
-
-      .btn-modal {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: all 0.3s ease;
-      }
-
-      .btn-modal-cancel {
-        background: #6c757d;
-        color: white;
-      }
-
-      .btn-modal-cancel:hover {
-        background: #5a6268;
-      }
-
-      .btn-modal-confirm {
-        background: #dc3545;
-        color: white;
-      }
-
-      .btn-modal-confirm:hover {
-        background: #c82333;
-      }
-
       @media (max-width: 768px) {
         .nav-menu ul {
           flex-direction: column;
@@ -407,20 +297,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         .btn {
           width: 100%;
         }
-
-        .modal-content {
-          margin: 5% auto;
-          width: 95%;
-          padding: 20px;
-        }
-
-        .modal-actions {
-          flex-direction: column;
-        }
-
-        .btn-modal {
-          width: 100%;
-        }
       }
     </style>
   </head>
@@ -442,11 +318,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       <!-- 导航菜单 -->
       <div class="nav-menu">
         <ul>
-          <li>
-            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp"
-              >控制台首页</a
-            >
-          </li>
           <li>
             <a href="${pageContext.request.contextPath}/admin/tool-list"
               >工具审核</a
@@ -534,18 +405,14 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                         name="reviewId"
                         value="${review.reviewId}"
                       />
-                      <button
-                        type="submit"
-                        class="btn btn-approve"
-                        onclick="return confirm('确定要通过这条评论吗？')"
-                      >
+                      <button type="submit" class="btn btn-approve">
                         通过
                       </button>
                     </form>
                     <button
                       type="button"
                       class="btn btn-reject"
-                      onclick="showRejectModal('${review.reviewId}')"
+                      onclick="rejectReview('${review.reviewId}')"
                     >
                       拒绝
                     </button>
@@ -566,47 +433,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       </div>
     </div>
 
-    <!-- 拒绝原因模态框 -->
-    <div id="rejectModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title">拒绝评论</h3>
-          <span class="close" onclick="closeRejectModal()">&times;</span>
-        </div>
-        <form
-          id="rejectForm"
-          method="post"
-          action="${pageContext.request.contextPath}/admin/review-audit"
-        >
-          <input type="hidden" name="action" value="reject" />
-          <input type="hidden" id="rejectReviewId" name="reviewId" value="" />
-
-          <div class="form-group">
-            <label for="rejectReason">请输入拒绝原因：</label>
-            <textarea
-              id="rejectReason"
-              name="reason"
-              placeholder="请详细说明拒绝这条评论的原因..."
-              required
-            ></textarea>
-          </div>
-
-          <div class="modal-actions">
-            <button
-              type="button"
-              class="btn-modal btn-modal-cancel"
-              onclick="closeRejectModal()"
-            >
-              取消
-            </button>
-            <button type="submit" class="btn-modal btn-modal-confirm">
-              确认拒绝
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
     <script>
       $(document).ready(function () {
         // 自动隐藏消息提示
@@ -615,53 +441,41 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         }, 5000);
       });
 
-      // 显示拒绝模态框
-      function showRejectModal(reviewId) {
-        document.getElementById("rejectReviewId").value = reviewId;
-        document.getElementById("rejectReason").value = "";
-        document.getElementById("rejectModal").style.display = "block";
-        // 聚焦到文本框
-        setTimeout(function () {
-          document.getElementById("rejectReason").focus();
-        }, 100);
-      }
-
-      // 关闭拒绝模态框
-      function closeRejectModal() {
-        document.getElementById("rejectModal").style.display = "none";
-      }
-
-      // 点击模态框外部关闭
-      window.onclick = function (event) {
-        var modal = document.getElementById("rejectModal");
-        if (event.target == modal) {
-          closeRejectModal();
-        }
-      };
-
-      // 表单提交前确认
-      document
-        .getElementById("rejectForm")
-        .addEventListener("submit", function (e) {
-          var reason = document.getElementById("rejectReason").value.trim();
-          if (reason === "") {
-            alert("请输入拒绝原因");
-            e.preventDefault();
-            return false;
-          }
-
-          if (!confirm("确定要拒绝这条评论吗？")) {
-            e.preventDefault();
-            return false;
-          }
+      function rejectReview(reviewId) {
+        // 创建表单并提交
+        const form = $("<form>", {
+          method: "POST",
+          action: "${pageContext.request.contextPath}/admin/review-audit",
         });
 
-      // ESC键关闭模态框
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") {
-          closeRejectModal();
-        }
-      });
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "action",
+            value: "reject",
+          })
+        );
+
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "reviewId",
+            value: reviewId,
+          })
+        );
+
+        // 添加默认拒绝原因
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "reason",
+            value: "管理员拒绝",
+          })
+        );
+
+        $("body").append(form);
+        form.submit();
+      }
     </script>
   </body>
 </html>

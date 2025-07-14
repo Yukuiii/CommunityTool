@@ -390,80 +390,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
           flex-direction: column;
         }
       }
-
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-
-      .modal-content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 30px;
-        border-radius: 12px;
-        width: 90%;
-        max-width: 500px;
-        text-align: center;
-      }
-
-      .modal h3 {
-        color: #2c3e50;
-        margin-bottom: 15px;
-      }
-
-      .modal p {
-        color: #6c757d;
-        margin-bottom: 25px;
-        line-height: 1.6;
-      }
-
-      .modal-actions {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-      }
-
-      .reason-input {
-        margin: 20px 0;
-        text-align: left;
-      }
-
-      .reason-input label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .reason-input textarea {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #ddd;
-        border-radius: 6px;
-        font-size: 14px;
-        font-family: inherit;
-        resize: vertical;
-        min-height: 80px;
-        box-sizing: border-box;
-      }
-
-      .reason-input textarea:focus {
-        outline: none;
-        border-color: #007bff;
-      }
-
-      .reason-input .char-count {
-        text-align: right;
-        font-size: 12px;
-        color: #6c757d;
-        margin-top: 5px;
-      }
     </style>
   </head>
   <body>
@@ -484,11 +410,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       <!-- 导航菜单 -->
       <div class="nav-menu">
         <ul>
-          <li>
-            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp"
-              >控制台</a
-            >
-          </li>
           <li>
             <a
               href="${pageContext.request.contextPath}/admin/tool-list"
@@ -579,13 +500,13 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                   <div class="request-actions">
                     <button
                       class="btn btn-approve"
-                      onclick="approveToolConfirm('${tool.toolId}', '${tool.toolName}')"
+                      onclick="approveTool('${tool.toolId}')"
                     >
                       ✓ 审核通过
                     </button>
                     <button
                       class="btn btn-reject"
-                      onclick="rejectToolConfirm('${tool.toolId}', '${tool.toolName}')"
+                      onclick="rejectTool('${tool.toolId}')"
                     >
                       ✗ 审核驳回
                     </button>
@@ -598,42 +519,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       </div>
     </div>
 
-    <!-- 确认模态框 -->
-    <div id="confirmModal" class="modal">
-      <div class="modal-content">
-        <h3 id="modalTitle">确认操作</h3>
-        <p id="modalMessage">确定要执行此操作吗？</p>
-
-        <!-- 拒绝原因输入框（仅在拒绝操作时显示） -->
-        <div id="reasonInput" class="reason-input" style="display: none">
-          <label for="rejectReason">拒绝原因 *</label>
-          <textarea
-            id="rejectReason"
-            placeholder="请详细说明拒绝的原因，以便工具提供者了解并改进..."
-            maxlength="500"
-            oninput="updateCharCount()"
-          ></textarea>
-          <div class="char-count"><span id="charCount">0</span>/500</div>
-        </div>
-
-        <div class="modal-actions">
-          <button class="btn btn-primary" onclick="closeModal()">取消</button>
-          <button
-            id="confirmBtn"
-            class="btn btn-success"
-            onclick="executeAction()"
-          >
-            确认
-          </button>
-        </div>
-      </div>
-    </div>
-
     <script>
-      let currentAction = null;
-      let currentToolId = null;
-      let currentToolName = null;
-
       $(document).ready(function () {
         // 自动隐藏消息提示
         setTimeout(function () {
@@ -641,144 +527,52 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         }, 5000);
       });
 
-      function approveToolConfirm(toolId, toolName) {
-        currentAction = "approve";
-        currentToolId = toolId;
-        currentToolName = toolName;
-
-        $("#modalTitle").text("确认审核通过");
-        $("#modalMessage").text(
-          '确定要通过工具"' +
-            toolName +
-            '"的审核吗？通过后工具将变为可借用状态。'
-        );
-        $("#confirmBtn")
-          .removeClass("btn-danger")
-          .addClass("btn-success")
-          .text("确认通过");
-
-        // 隐藏拒绝原因输入框
-        $("#reasonInput").hide();
-        $("#confirmModal").show();
-      }
-
-      function rejectToolConfirm(toolId, toolName) {
-        currentAction = "reject";
-        currentToolId = toolId;
-        currentToolName = toolName;
-
-        $("#modalTitle").text("确认审核驳回");
-        $("#modalMessage").text(
-          '请填写驳回工具"' + toolName + '"的原因，以便工具提供者了解并改进。'
-        );
-        $("#confirmBtn")
-          .removeClass("btn-success")
-          .addClass("btn-danger")
-          .text("确认驳回");
-
-        // 显示拒绝原因输入框并清空内容
-        $("#reasonInput").show();
-        $("#rejectReason").val("");
-        updateCharCount();
-
-        $("#confirmModal").show();
-      }
-
-      function executeAction() {
-        if (!currentAction || !currentToolId) {
-          return;
-        }
-
-        // 如果是拒绝操作，验证拒绝原因
-        if (currentAction === "reject") {
-          const reason = $("#rejectReason").val().trim();
-          if (!reason) {
-            alert("请填写拒绝原因！");
-            return;
-          }
-          if (reason.length < 5) {
-            alert("拒绝原因至少需要5个字符！");
-            return;
-          }
-        }
-
-        // 显示加载状态
-        $("#confirmBtn")
-          .prop("disabled", true)
-          .html('<span class="loading">⏳</span> 处理中...');
-
-        // 根据操作类型确定提交路径
-        let actionUrl = "";
-        if (currentAction === "approve") {
-          actionUrl = "${pageContext.request.contextPath}/admin/tool-approve";
-        } else if (currentAction === "reject") {
-          actionUrl = "${pageContext.request.contextPath}/admin/tool-reject";
-        }
-
+      function approveTool(toolId) {
         // 创建表单并提交
         const form = $("<form>", {
           method: "POST",
-          action: actionUrl,
+          action: "${pageContext.request.contextPath}/admin/tool-approve",
         });
 
         form.append(
           $("<input>", {
             type: "hidden",
             name: "toolId",
-            value: currentToolId,
+            value: toolId,
           })
         );
-
-        // 如果是拒绝操作，添加拒绝原因
-        if (currentAction === "reject") {
-          form.append(
-            $("<input>", {
-              type: "hidden",
-              name: "reason",
-              value: $("#rejectReason").val().trim(),
-            })
-          );
-        }
 
         $("body").append(form);
         form.submit();
       }
 
-      function closeModal() {
-        $("#confirmModal").hide();
-        currentAction = null;
-        currentToolId = null;
-        currentToolName = null;
-        $("#confirmBtn").prop("disabled", false).html("确认");
+      function rejectTool(toolId) {
+        // 创建表单并提交
+        const form = $("<form>", {
+          method: "POST",
+          action: "${pageContext.request.contextPath}/admin/tool-reject",
+        });
 
-        // 重置拒绝原因输入框
-        $("#reasonInput").hide();
-        $("#rejectReason").val("");
-        updateCharCount();
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "toolId",
+            value: toolId,
+          })
+        );
+
+        // 添加空的拒绝原因（后端可以处理默认值）
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "reason",
+            value: "管理员驳回",
+          })
+        );
+
+        $("body").append(form);
+        form.submit();
       }
-
-      // 更新字符计数
-      function updateCharCount() {
-        const text = $("#rejectReason").val();
-        const count = text.length;
-        $("#charCount").text(count);
-
-        // 根据字符数量改变颜色
-        if (count > 450) {
-          $("#charCount").css("color", "#dc3545");
-        } else if (count > 400) {
-          $("#charCount").css("color", "#ffc107");
-        } else {
-          $("#charCount").css("color", "#6c757d");
-        }
-      }
-
-      // 点击模态框外部关闭
-      $(window).click(function (event) {
-        if (event.target.id === "confirmModal") {
-          closeModal();
-        }
-      });
     </script>
   </body>
 </html>

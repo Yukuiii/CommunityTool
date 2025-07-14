@@ -50,34 +50,13 @@ public class ToolUploadServlet extends HttpServlet {
         Integer rentalFee = Integer.parseInt(request.getParameter("rentalFee"));
         
         // 上传工具
-        boolean success = providerService.uploadTool(
+        providerService.uploadTool(
             currentUser.getUserId(), 
             toolName, 
             description, 
             rentalFee
         );
-        
-        if (success) {
-            // 上传成功
-            request.setAttribute("message", "工具上传成功！等待管理员审核");
-            
-            // 记录操作日志
-            System.out.println("工具上传成功: " + toolName + " (提供者: " + currentUser.getUsername() + ")");
-            
-            // 清空表单数据
-            request.removeAttribute("toolName");
-            request.removeAttribute("description");
-            request.removeAttribute("rentalFee");
-            
-            request.getRequestDispatcher("/provider/tool-upload.jsp").forward(request, response);
-        } else {
-            // 上传失败
-            request.setAttribute("error", "工具上传失败，请稍后重试");
-            request.setAttribute("toolName", toolName);
-            request.setAttribute("description", description);
-            request.setAttribute("rentalFee", rentalFee);
-            
-            request.getRequestDispatcher("/provider/tool-upload.jsp").forward(request, response);
-        }
+
+        response.sendRedirect(request.getContextPath() + "/provider/dashboard");
     }
 }

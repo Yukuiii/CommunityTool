@@ -446,11 +446,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                               value="${toolDto.tool.toolId}"
                             />
                             <input type="hidden" name="action" value="down" />
-                            <button
-                              type="submit"
-                              class="btn btn-warning"
-                              onclick="return confirm('确定要下架这个工具吗？')"
-                            >
+                            <button type="submit" class="btn btn-warning">
                               下架工具
                             </button>
                           </form>
@@ -467,11 +463,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                               value="${toolDto.tool.toolId}"
                             />
                             <input type="hidden" name="action" value="up" />
-                            <button
-                              type="submit"
-                              class="btn btn-success"
-                              onclick="return confirm('确定要上架这个工具吗？')"
-                            >
+                            <button type="submit" class="btn btn-success">
                               上架工具
                             </button>
                           </form>

@@ -31,25 +31,10 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        // 设置请求编码
-        request.setCharacterEncoding("UTF-8");
-        
         // 获取表单参数
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String loginType = request.getParameter("loginType");
-        String returnUrl = request.getParameter("returnUrl");
-        
-        // 参数验证
-        if (username == null || username.trim().isEmpty() || 
-            password == null || password.trim().isEmpty() ||
-            loginType == null || loginType.trim().isEmpty()) {
-            
-            request.setAttribute("error", "请填写完整的登录信息");
-            request.setAttribute("loginType", loginType);
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
-            return;
-        }
         
         // 验证登录
         boolean loginSuccess = false;
@@ -87,26 +72,19 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userRole", userRole);
 
             // 跳转到目标页面
-            if (returnUrl != null && !returnUrl.trim().isEmpty() &&
-                !returnUrl.contains("login.jsp")) {
-                response.sendRedirect(returnUrl);
-            } else {
+            
                 // 根据用户类型跳转到不同的默认页面
                 if ("admin".equals(userRole)) {
-                    response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
+                    response.sendRedirect(request.getContextPath() + "/admin/tool-list");
                 } else if ("borrower".equals(userRole)) {
                     response.sendRedirect(request.getContextPath() + "/borrower/dashboard");
                 } else if ("provider".equals(userRole)) {
                     response.sendRedirect(request.getContextPath() + "/provider/dashboard");
                 }
-            }
         } else {
             // 登录失败
             request.setAttribute("error", "用户名或密码不正确");
             request.setAttribute("loginType", loginType);
-            
-            // 记录登录失败日志
-            System.out.println("登录失败: " + username + " (" + loginType + ")");
             
             // 转发回登录页面
             request.getRequestDispatcher("/login.jsp").forward(request, response);

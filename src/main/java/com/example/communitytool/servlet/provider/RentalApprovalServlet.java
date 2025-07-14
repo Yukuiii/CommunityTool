@@ -45,7 +45,6 @@ public class RentalApprovalServlet extends HttpServlet {
             
             // 设置请求属性
             request.setAttribute("pendingRequests", pendingRequests);
-            request.setAttribute("pendingCount", pendingRequests != null ? pendingRequests.size() : 0);
             
             // 转发到审批页面
             request.getRequestDispatcher("/provider/rental-approval.jsp").forward(request, response);
@@ -109,29 +108,12 @@ public class RentalApprovalServlet extends HttpServlet {
             }
             
             // 执行审批操作
-            boolean success = providerService.approveRentalRequest(
+            providerService.approveRentalRequest(
                 currentUser.getUserId(), 
                 recordId, 
                 approved,
                 reason
             );
-            
-            if (success) {
-                // 审批成功
-                request.setAttribute("message", "租借请求" + actionName + "成功");
-                
-                // 记录操作日志
-                System.out.println("租借请求" + actionName + "成功: 记录ID " + recordId + 
-                    " (提供者: " + currentUser.getUsername() + ")");
-                
-            } else {
-                // 审批失败
-                request.setAttribute("error", "租借请求" + actionName + "失败，请稍后重试");
-                
-                // 记录操作日志
-                System.out.println("租借请求" + actionName + "失败: 记录ID " + recordId + 
-                    " (提供者: " + currentUser.getUsername() + ")");
-            }
             
         } catch (Exception e) {
             System.err.println("审批租借请求异常: " + e.getMessage());

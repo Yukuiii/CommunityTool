@@ -422,11 +422,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
       <div class="nav-menu">
         <ul>
           <li>
-            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp"
-              >控制台</a
-            >
-          </li>
-          <li>
             <a href="${pageContext.request.contextPath}/admin/tool-list"
               >工具审核</a
             >

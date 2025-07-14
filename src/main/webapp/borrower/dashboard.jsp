@@ -263,114 +263,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         margin-top: 50px;
       }
 
-      /* 模态框样式 */
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-
-      .modal-content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 0;
-        border-radius: 8px;
-        width: 400px;
-        max-width: 90%;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        animation: modalSlideIn 0.3s ease;
-      }
-
-      @keyframes modalSlideIn {
-        from {
-          opacity: 0;
-          transform: translateY(-50px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .modal-header {
-        padding: 20px;
-        border-bottom: 1px solid #e9ecef;
-        background: #f8f9fa;
-        border-radius: 8px 8px 0 0;
-      }
-
-      .modal-title {
-        margin: 0;
-        font-size: 18px;
-        color: #2c3e50;
-      }
-
-      .modal-body {
-        padding: 20px;
-      }
-
-      .tool-detail {
-        margin-bottom: 15px;
-      }
-
-      .tool-detail label {
-        font-weight: bold;
-        color: #495057;
-        display: inline-block;
-        width: 80px;
-      }
-
-      .tool-detail span {
-        color: #6c757d;
-      }
-
-      .rental-fee-highlight {
-        color: #28a745;
-        font-weight: bold;
-        font-size: 16px;
-      }
-
-      .modal-footer {
-        padding: 15px 20px;
-        border-top: 1px solid #e9ecef;
-        text-align: right;
-        background: #f8f9fa;
-        border-radius: 0 0 8px 8px;
-      }
-
-      .modal-btn {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        margin-left: 10px;
-        transition: background 0.3s ease;
-      }
-
-      .modal-btn-cancel {
-        background: #6c757d;
-        color: white;
-      }
-
-      .modal-btn-cancel:hover {
-        background: #5a6268;
-      }
-
-      .modal-btn-confirm {
-        background: #007bff;
-        color: white;
-      }
-
-      .modal-btn-confirm:hover {
-        background: #0056b3;
-      }
-
       .modal-btn:disabled {
         background: #6c757d;
         cursor: not-allowed;
@@ -483,53 +375,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 24px;
         font-weight: bold;
         color: #28a745;
-      }
-
-      /* 支付成功模态框样式 */
-      .success-modal {
-        display: none;
-        position: fixed;
-        z-index: 1002;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-
-      .success-modal-content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 0;
-        border-radius: 8px;
-        width: 350px;
-        max-width: 90%;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        animation: modalSlideIn 0.3s ease;
-        text-align: center;
-      }
-
-      .success-icon {
-        padding: 30px;
-        font-size: 60px;
-        color: #28a745;
-      }
-
-      .success-message {
-        padding: 0 30px 30px;
-      }
-
-      .success-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: #2c3e50;
-        margin-bottom: 10px;
-      }
-
-      .success-desc {
-        color: #6c757d;
-        font-size: 14px;
-        line-height: 1.5;
       }
 
       .user-role-badge {
@@ -747,11 +592,8 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                     type="button"
                     class="rent-btn"
                     data-tool-id="${tool.toolId}"
-                    data-tool-name="${tool.toolName}"
-                    data-tool-description="${tool.description}"
                     data-rental-fee="${tool.rentalFee}"
-                    data-provider-id="${tool.providerId}"
-                    onclick="showRentModal(this)"
+                    onclick="showPaymentModalDirectly(this)"
                   >
                     立即租借
                   </button>
@@ -787,66 +629,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       </div>
     </div>
 
-    <!-- 租借确认模态框 -->
-    <div id="rentModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title">确认租借工具</h3>
-        </div>
-        <div class="modal-body">
-          <div class="tool-detail">
-            <label>工具名称：</label>
-            <span id="modalToolName"></span>
-          </div>
-          <div class="tool-detail">
-            <label>工具描述：</label>
-            <span id="modalToolDescription"></span>
-          </div>
-          <div class="tool-detail">
-            <label>租金：</label>
-            <span id="modalRentalFee" class="rental-fee-highlight"></span>
-          </div>
-          <div class="tool-detail">
-            <label>提供者：</label>
-            <span id="modalProviderId"></span>
-          </div>
-          <div
-            style="
-              margin-top: 20px;
-              padding: 15px;
-              background: #f8f9fa;
-              border-radius: 4px;
-              border-left: 4px solid #007bff;
-            "
-          >
-            <strong>注意事项：</strong>
-            <ul style="margin: 10px 0 0 20px; color: #6c757d">
-              <li>提交租借申请后需要等待工具提供者审核</li>
-              <li>审核通过后才能正式使用工具</li>
-              <li>请按时归还工具，避免影响其他用户使用</li>
-            </ul>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="modal-btn modal-btn-cancel"
-            onclick="closeRentModal()"
-          >
-            取消
-          </button>
-          <button
-            type="button"
-            class="modal-btn modal-btn-confirm"
-            id="confirmRentBtn"
-            onclick="showPaymentModal()"
-          >
-            确认租借
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- 支付模态框 -->
     <div id="paymentModal" class="payment-modal">
       <div class="payment-modal-content">
@@ -870,7 +652,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
             <div class="payment-icon wechat-icon">💬</div>
             <div class="payment-info">
               <div class="payment-name">微信支付</div>
-              <div class="payment-desc">使用微信扫码支付</div>
+              <div class="payment-desc">使用微信支付</div>
             </div>
           </div>
 
@@ -884,7 +666,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
             <div class="payment-icon alipay-icon">💰</div>
             <div class="payment-info">
               <div class="payment-name">支付宝支付</div>
-              <div class="payment-desc">使用支付宝扫码支付</div>
+              <div class="payment-desc">使用支付宝支付</div>
             </div>
           </div>
         </div>
@@ -910,19 +692,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       </div>
     </div>
 
-    <!-- 支付成功模态框 -->
-    <div id="successModal" class="success-modal">
-      <div class="success-modal-content">
-        <div class="success-icon">✅</div>
-        <div class="success-message">
-          <div class="success-title">支付成功！</div>
-          <div class="success-desc">
-            您的支付已完成，正在为您提交租借申请...
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script>
       // 全局变量存储当前选中的工具信息
       var currentToolId = null;
@@ -937,45 +706,32 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
         // 点击模态框外部关闭模态框
         $(window).click(function (event) {
-          if (event.target.id === "rentModal") {
-            closeRentModal();
-          }
           if (event.target.id === "paymentModal") {
             closePaymentModal();
           }
         });
       });
 
-      // 显示租借确认模态框
-      function showRentModal(button) {
+      // 直接显示支付模态框
+      function showPaymentModalDirectly(button) {
         var toolId = $(button).data("tool-id");
-        var toolName = $(button).data("tool-name");
-        var toolDescription = $(button).data("tool-description");
         var rentalFee = $(button).data("rental-fee");
-        var providerId = $(button).data("provider-id");
 
         // 存储当前工具ID和租金
         currentToolId = toolId;
         currentRentalFee = rentalFee;
 
-        // 填充模态框内容
-        $("#modalToolName").text(toolName);
-        $("#modalToolDescription").text(toolDescription);
-        $("#modalRentalFee").text("¥" + rentalFee + "/天");
-        $("#modalProviderId").text("ID: " + providerId);
+        // 设置支付金额
+        $("#paymentAmount").text("¥" + rentalFee);
 
-        // 显示模态框
-        $("#rentModal").fadeIn(300);
-      }
+        // 重置支付方式选择
+        selectedPaymentMethod = null;
+        $("input[name='paymentMethod']").prop("checked", false);
+        $(".payment-method").removeClass("selected");
+        $("#confirmPaymentBtn").prop("disabled", true);
 
-      // 关闭租借确认模态框
-      function closeRentModal() {
-        $("#rentModal").fadeOut(300);
-        currentToolId = null;
-        currentRentalFee = null;
-
-        // 重置确认按钮状态
-        $("#confirmRentBtn").prop("disabled", false).html("确认租借");
+        // 显示支付模态框
+        $("#paymentModal").fadeIn(300);
       }
 
       // 显示支付模态框
@@ -1005,9 +761,8 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       function closePaymentModal() {
         $("#paymentModal").fadeOut(300);
         selectedPaymentMethod = null;
-
-        // 重新显示租借确认模态框
-        $("#rentModal").fadeIn(300);
+        currentToolId = null;
+        currentRentalFee = null;
       }
 
       // 选择支付方式
@@ -1037,23 +792,11 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           return;
         }
 
-        // 禁用确认支付按钮
-        $("#confirmPaymentBtn").prop("disabled", true).html("⏳ 支付中...");
+        // 关闭支付模态框
+        $("#paymentModal").fadeOut(300);
 
-        // 模拟支付过程（2秒后显示支付成功）
-        setTimeout(function () {
-          // 关闭支付模态框
-          $("#paymentModal").fadeOut(300);
-
-          // 显示支付成功模态框
-          $("#successModal").fadeIn(300);
-
-          // 2秒后关闭成功提示并提交租借申请
-          setTimeout(function () {
-            $("#successModal").fadeOut(300);
-            submitRentRequest();
-          }, 2000);
-        }, 2000);
+        // 直接提交租借申请
+        submitRentRequest();
       }
 
       // 提交租借申请

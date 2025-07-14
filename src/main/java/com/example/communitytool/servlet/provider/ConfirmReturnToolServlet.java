@@ -53,12 +53,7 @@ public class ConfirmReturnToolServlet extends HttpServlet {
 
         try {
             Integer recordId = Integer.parseInt(recordIdParam);
-            boolean success = providerService.confirmReturnTool(currentUser.getUserId(), recordId);
-            if (success) {
-                request.setAttribute("message", "确认归还工具成功");
-            } else {
-                request.setAttribute("error", "确认归还工具失败");
-            }
+            providerService.confirmReturnTool(currentUser.getUserId(), recordId); 
         } catch (Exception e) {
             System.err.println("确认归还工具失败: " + e.getMessage());
             request.setAttribute("error", "确认归还工具失败，请稍后重试，错误信息: " + e.getMessage());

@@ -63,10 +63,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 14px;
       }
 
-      .logout-btn:hover {
-        background: #c82333;
-      }
-
       .container {
         max-width: 1200px;
         margin: 0 auto;
@@ -93,13 +89,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         text-decoration: none;
         padding: 12px 20px;
         border-radius: 8px;
-        transition: all 0.3s ease;
         font-weight: 500;
-      }
-
-      .nav-menu a:hover {
-        background: #e3f2fd;
-        color: #007bff;
       }
 
       .nav-menu a.active {
@@ -183,12 +173,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border: 1px solid #e9ecef;
         border-radius: 8px;
         padding: 20px;
-        transition: all 0.3s ease;
-      }
-
-      .tool-card:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
       }
 
       .tool-name {
@@ -272,7 +256,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 14px;
         margin-top: 10px;
         width: 100%;
-        transition: all 0.3s ease;
       }
 
       .review-btn {
@@ -285,16 +268,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 14px;
         margin-top: 10px;
         width: 100%;
-        transition: all 0.3s ease;
-      }
-
-      .review-btn:hover {
-        background: #0056b3;
-        transform: translateY(-1px);
-      }
-
-      .return-btn:hover {
-        background: #218838;
       }
 
       .return-btn:disabled {
@@ -317,10 +290,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         color: #007bff;
         text-decoration: none;
         font-weight: 500;
-      }
-
-      .empty-state a:hover {
-        text-decoration: underline;
       }
 
       .footer {
@@ -376,10 +345,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         line-height: 1;
       }
 
-      .close:hover {
-        color: #000;
-      }
-
       .form-group {
         margin-bottom: 20px;
       }
@@ -402,10 +367,8 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 30px;
         color: #ddd;
         cursor: pointer;
-        transition: color 0.2s;
       }
 
-      .star:hover,
       .star.active {
         color: #ffc107;
       }
@@ -423,7 +386,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
       .form-group textarea:focus {
         outline: none;
-        border-color: #007bff;
       }
 
       .modal-buttons {
@@ -441,11 +403,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border-radius: 6px;
         cursor: pointer;
         font-size: 16px;
-        transition: all 0.3s ease;
-      }
-
-      .btn-submit:hover {
-        background: #0056b3;
       }
 
       .btn-cancel {
@@ -456,11 +413,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border-radius: 6px;
         cursor: pointer;
         font-size: 16px;
-        transition: all 0.3s ease;
-      }
-
-      .btn-cancel:hover {
-        background: #545b62;
       }
 
       .user-role-badge {
@@ -636,7 +588,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                         method="post"
                         action="${pageContext.request.contextPath}/borrower/return-tool"
                         style="margin-top: 10px"
-                        onsubmit="return confirmReturn()"
                       >
                         <input
                           type="hidden"
@@ -746,11 +697,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         }, 5000);
       });
 
-      // 归还工具确认对话框
-      function confirmReturn() {
-        return confirm("确定要归还这个工具吗？归还后工具将变为可租借状态。");
-      }
-
       // 打开评价模态框
       function openReviewModal(toolId, toolName, recordId) {
         $("#toolId").val(toolId);
@@ -785,23 +731,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           }
         });
 
-        // 星星悬停效果
-        $(".star").hover(
-          function () {
-            let hoverRating = $(this).data("rating");
-            $(".star").removeClass("active");
-            for (let i = 1; i <= hoverRating; i++) {
-              $('.star[data-rating="' + i + '"]').addClass("active");
-            }
-          },
-          function () {
-            $(".star").removeClass("active");
-            for (let i = 1; i <= selectedRating; i++) {
-              $('.star[data-rating="' + i + '"]').addClass("active");
-            }
-          }
-        );
-
         // 点击模态框外部关闭
         $(window).click(function (event) {
           if (event.target.id === "reviewModal") {
@@ -812,15 +741,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         // 点击关闭按钮
         $(".close").click(function () {
           closeReviewModal();
-        });
-
-        // 表单提交验证
-        $("#reviewForm").submit(function (e) {
-          if (!$("#rating").val()) {
-            alert("请选择评分！");
-            e.preventDefault();
-            return false;
-          }
         });
       });
     </script>

@@ -31,21 +31,10 @@ public class LoginService {
      */
     public boolean userLogin(String username, String password) {
         try {
-            // 参数验证
-            if (username == null || username.trim().isEmpty()) {
-                System.out.println("用户登录失败：用户名为空");
-                return false;
-            }
-
-            if (password == null || password.trim().isEmpty()) {
-                System.out.println("用户登录失败：密码为空");
-                return false;
-            }
 
             // 查找用户
             User user = userDAO.findByUsername(username.trim());
             if (user == null) {
-                System.out.println("用户登录失败：用户不存在 - " + username);
                 return false;
             }
 

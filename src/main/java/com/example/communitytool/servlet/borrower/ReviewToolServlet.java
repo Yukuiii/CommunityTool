@@ -50,7 +50,6 @@ public class ReviewToolServlet extends HttpServlet {
         }
 
         List<BorrowRecordToolsDTO> myRecords = borrowerService.getMyRecords(currentUser.getUserId());
-        request.setAttribute("message", "评价工具成功，请等待管理员审核");
         request.setAttribute("myRecords", myRecords);
         request.getRequestDispatcher("/borrower/my-records.jsp").forward(request, response);
     }

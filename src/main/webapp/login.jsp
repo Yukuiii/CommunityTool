@@ -211,10 +211,6 @@
           method="post"
           action="${pageContext.request.contextPath}/login"
         >
-          <% if (request.getAttribute("returnUrl") != null) { %>
-          <input type="hidden" name="returnUrl" value="${returnUrl}" />
-          <% } %>
-
           <div class="form-group">
             <label for="loginType">登录类型</label>
             <select

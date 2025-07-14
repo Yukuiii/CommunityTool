@@ -399,7 +399,6 @@
         <div class="returns-container">
             <div class="returns-header">
                 <h2 class="returns-title">待确认归还的工具</h2>
-                <div class="returns-count">${pendingReturnTools != null ? pendingReturnTools.size() : 0} 个待确认</div>
             </div>
 
             <div class="returns-grid">
@@ -449,8 +448,7 @@
                                 <div class="return-actions">
                                     <form method="post" style="display: inline;">
                                         <input type="hidden" name="recordId" value="${returnItem.borrowRecord.recordId}">
-                                        <button type="submit" class="btn btn-confirm" 
-                                                onclick="return confirm('确定要确认这个工具已归还吗？确认后工具状态将变为闲置。')">
+                                        <button type="submit" class="btn btn-confirm">
                                             ✓ 确认归还
                                         </button>
                                     </form>

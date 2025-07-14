@@ -43,13 +43,8 @@ public class AdminToolApproveServlet extends HttpServlet {
 
         try {
             Integer toolId = Integer.parseInt(toolIdStr.trim());
-            boolean success = adminService.approveToolReview(toolId);
-            
-            if (success) {
-                request.setAttribute("message", "工具审核通过成功");
-            } else {
-                request.setAttribute("error", "工具审核通过失败");
-            }
+            adminService.approveToolReview(toolId);
+
         } catch (NumberFormatException e) {
             request.setAttribute("error", "工具ID格式错误");
         } catch (Exception e) {

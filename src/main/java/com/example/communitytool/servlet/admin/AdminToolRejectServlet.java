@@ -43,13 +43,7 @@ public class AdminToolRejectServlet extends HttpServlet {
         try {
             Integer toolId = Integer.parseInt(toolIdStr.trim());
             String reason = request.getParameter("reason");
-            boolean success = adminService.rejectToolReview(toolId, reason);
-
-            if (success) {
-                request.setAttribute("message", "工具审核驳回成功");
-            } else {
-                request.setAttribute("error", "工具审核驳回失败");
-            }   
+            adminService.rejectToolReview(toolId, reason);
         } catch (Exception e) {
             System.err.println("处理审核驳回异常: " + e.getMessage());
             request.setAttribute("error", "审核驳回操作失败");

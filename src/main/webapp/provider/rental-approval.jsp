@@ -306,128 +306,9 @@
         margin-top: 50px;
       }
 
-      /* 模态框样式 */
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
 
-      .modal-content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 0;
-        border-radius: 8px;
-        width: 500px;
-        max-width: 90%;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        animation: modalSlideIn 0.3s ease;
-      }
 
-      @keyframes modalSlideIn {
-        from {
-          opacity: 0;
-          transform: translateY(-50px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
 
-      .modal-header {
-        padding: 20px;
-        border-bottom: 1px solid #e9ecef;
-        background: #f8f9fa;
-        border-radius: 8px 8px 0 0;
-      }
-
-      .modal-title {
-        margin: 0;
-        font-size: 18px;
-        color: #2c3e50;
-      }
-
-      .modal-body {
-        padding: 20px;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #495057;
-      }
-
-      .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 6px;
-        font-size: 14px;
-        transition: border-color 0.3s ease;
-      }
-
-      .form-control:focus {
-        outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-      }
-
-      textarea.form-control {
-        resize: vertical;
-        min-height: 100px;
-      }
-
-      .modal-footer {
-        padding: 15px 20px;
-        border-top: 1px solid #e9ecef;
-        text-align: right;
-        background: #f8f9fa;
-        border-radius: 0 0 8px 8px;
-      }
-
-      .modal-btn {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        margin-left: 10px;
-        transition: background 0.3s ease;
-      }
-
-      .modal-btn-cancel {
-        background: #6c757d;
-        color: white;
-      }
-
-      .modal-btn-cancel:hover {
-        background: #5a6268;
-      }
-
-      .modal-btn-confirm {
-        background: #dc3545;
-        color: white;
-      }
-
-      .modal-btn-confirm:hover {
-        background: #c82333;
-      }
-
-      .modal-btn:disabled {
-        background: #6c757d;
-        cursor: not-allowed;
-      }
 
       @media (max-width: 768px) {
         .header-content {
@@ -448,10 +329,7 @@
           flex-direction: column;
         }
 
-        .modal-content {
-          width: 95%;
-          margin: 10% auto;
-        }
+
       }
 
       .user-role-badge {
@@ -522,7 +400,6 @@
       <div class="requests-container">
         <div class="requests-header">
           <h2 class="requests-title">待审批的租借请求</h2>
-          <div class="requests-count">${pendingCount} 个待审批</div>
         </div>
 
         <div class="requests-grid">
@@ -595,13 +472,12 @@
                     <form method="post" style="display: inline;">
                       <input type="hidden" name="recordId" value="${request.borrowRecord.recordId}">
                       <input type="hidden" name="action" value="approve">
-                      <button type="submit" class="btn btn-approve"
-                              onclick="return confirm('确定要批准这个租借请求吗？')">
+                      <button type="submit" class="btn btn-approve">
                         ✓ 批准
                       </button>
                     </form>
                     <button type="button" class="btn btn-reject"
-                            onclick="showRejectModal('${request.borrowRecord.recordId}')">
+                            onclick="rejectRequest('${request.borrowRecord.recordId}')">
                       ✗ 拒绝
                     </button>
                   </div>
@@ -613,45 +489,9 @@
       </div>
     </div>
 
-    <!-- 拒绝原因模态框 -->
-    <div id="rejectModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title">拒绝租借请求</h3>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">请求ID：</label>
-            <span id="modalRecordId" style="font-weight: bold; color: #007bff;"></span>
-          </div>
-          <div class="form-group">
-            <label for="rejectReason" class="form-label">拒绝原因 <span style="color: #dc3545;">*</span></label>
-            <textarea
-              id="rejectReason"
-              name="reason"
-              class="form-control"
-              placeholder="请输入拒绝这个租借请求的原因..."
-              required></textarea>
-            <small style="color: #6c757d; font-size: 12px;">
-              请详细说明拒绝的原因，这将帮助用户了解情况并改进申请。
-            </small>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="modal-btn modal-btn-cancel" onclick="closeRejectModal()">
-            取消
-          </button>
-          <button type="button" class="modal-btn modal-btn-confirm" id="confirmRejectBtn" onclick="confirmReject()">
-            确认拒绝
-          </button>
-        </div>
-      </div>
-    </div>
+
 
     <script>
-      // 全局变量存储当前要拒绝的记录ID
-      var currentRecordId = null;
-
       $(document).ready(function () {
         // 自动隐藏消息提示
         setTimeout(function () {
@@ -669,82 +509,43 @@
               500
             );
         });
-
-        // 点击模态框外部关闭模态框
-        $(window).click(function (event) {
-          if (event.target.id === "rejectModal") {
-            closeRejectModal();
-          }
-        });
-
-        // 监听拒绝原因输入框变化
-        $("#rejectReason").on("input", function() {
-          var reason = $(this).val().trim();
-          $("#confirmRejectBtn").prop("disabled", reason.length === 0);
-        });
       });
 
-      // 显示拒绝原因模态框
-      function showRejectModal(recordId) {
-        currentRecordId = recordId;
-        $("#modalRecordId").text("#" + recordId);
-        $("#rejectReason").val("");
-        $("#confirmRejectBtn").prop("disabled", true);
-        $("#rejectModal").fadeIn(300);
-
-        // 聚焦到文本框
-        setTimeout(function() {
-          $("#rejectReason").focus();
-        }, 300);
-      }
-
-      // 关闭拒绝原因模态框
-      function closeRejectModal() {
-        $("#rejectModal").fadeOut(300);
-        currentRecordId = null;
-        $("#rejectReason").val("");
-        $("#confirmRejectBtn").prop("disabled", false).html("确认拒绝");
-      }
-
-      // 确认拒绝
-      function confirmReject() {
-        var reason = $("#rejectReason").val().trim();
-
-        if (!reason) {
-          alert("请输入拒绝原因");
-          $("#rejectReason").focus();
-          return;
-        }
-
-        if (!currentRecordId) {
-          alert("请选择要拒绝的请求");
-          return;
-        }
-
-        // 禁用确认按钮，显示加载状态
-        var $confirmBtn = $("#confirmRejectBtn");
-        $confirmBtn.prop("disabled", true).html("⏳ 提交中...");
-
+      function rejectRequest(recordId) {
         // 创建表单并提交
-        var form = $('<form method="post"></form>');
-        form.append('<input type="hidden" name="recordId" value="' + currentRecordId + '">');
-        form.append('<input type="hidden" name="action" value="reject">');
-        form.append('<input type="hidden" name="reason" value="' + reason + '">');
+        const form = $("<form>", {
+          method: "POST",
+          action: window.location.href,
+        });
 
-        // 将表单添加到页面并提交
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "recordId",
+            value: recordId,
+          })
+        );
+
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "action",
+            value: "reject",
+          })
+        );
+
+        // 添加默认拒绝原因
+        form.append(
+          $("<input>", {
+            type: "hidden",
+            name: "reason",
+            value: "提供者拒绝",
+          })
+        );
+
         $("body").append(form);
         form.submit();
       }
-
-      // ESC键关闭模态框
-      $(document).keydown(function (e) {
-        if (e.keyCode === 27) {
-          // ESC键
-          if ($("#rejectModal").is(":visible")) {
-            closeRejectModal();
-          }
-        }
-      });
     </script>
   </body>
 </html>

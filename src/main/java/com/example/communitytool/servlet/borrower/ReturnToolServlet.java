@@ -45,7 +45,6 @@ public class ReturnToolServlet extends HttpServlet {
         }
 
         List<BorrowRecordToolsDTO> myRecords = borrowerService.getMyRecords(currentUser.getUserId());
-        request.setAttribute("message", "归还工具成功，请等待工具提供者确认");
         request.setAttribute("myRecords", myRecords);
 
         request.getRequestDispatcher("/borrower/my-records.jsp").forward(request, response);

@@ -30,7 +30,7 @@ public class AdminReviewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     
+
         showPendingReviews(request, response);
     }
 
@@ -89,13 +89,7 @@ public class AdminReviewServlet extends HttpServlet {
 
         try {
             Integer reviewId = Integer.parseInt(reviewIdStr.trim());
-            boolean success = adminService.approveReview(reviewId);
-            
-            if (success) {
-                request.setAttribute("message", "评论审核通过成功");
-            } else {
-                request.setAttribute("error", "评论审核通过失败");
-            }
+            adminService.approveReview(reviewId);
             
         } catch (NumberFormatException e) {
             request.setAttribute("error", "评论ID格式错误");
@@ -118,13 +112,7 @@ public class AdminReviewServlet extends HttpServlet {
         String reason = request.getParameter("reason");
         try {
             Integer reviewId = Integer.parseInt(reviewIdStr.trim());
-            boolean success = adminService.rejectReview(reviewId, reason);
-
-            if (success) {
-                request.setAttribute("message", "评论审核拒绝成功");
-            } else {
-                request.setAttribute("error", "评论审核拒绝失败");
-            }
+            adminService.rejectReview(reviewId, reason);
 
         } catch (Exception e) {
             System.err.println("处理审核拒绝异常: " + e.getMessage());

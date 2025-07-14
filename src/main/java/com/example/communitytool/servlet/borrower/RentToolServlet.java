@@ -46,7 +46,6 @@ public class RentToolServlet extends HttpServlet {
         }
 
         List<BorrowRecordToolsDTO> myRecords = borrowerService.getMyRecords(currentUser.getUserId());
-        request.setAttribute("message", "租借工具成功，请等待工具提供者审核");
         request.setAttribute("myRecords", myRecords);
 
         request.getRequestDispatcher("/borrower/my-records.jsp").forward(request, response);
