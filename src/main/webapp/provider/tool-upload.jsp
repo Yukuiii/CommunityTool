@@ -160,20 +160,11 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       .form-group input:focus,
       .form-group textarea:focus {
         outline: none;
-        border-color: #007bff;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
       }
 
       .form-group textarea {
         resize: vertical;
         min-height: 120px;
-      }
-
-      .form-group .form-help {
-        font-size: 14px;
-        color: #6c757d;
-        margin-top: 5px;
       }
 
       .upload-button {
@@ -418,44 +409,25 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                 type="text"
                 id="toolName"
                 name="toolName"
-                required
-                placeholder="请输入工具名称"
                 value="${toolName}"
-                maxlength="100"
               />
-              <div class="form-help">工具的名称，例如：电钻、梯子、扳手等</div>
             </div>
 
             <div class="form-group">
               <label for="description">工具描述</label>
-              <textarea
-                id="description"
-                name="description"
-                placeholder="请描述工具的详细信息、使用方法、注意事项等"
-                maxlength="1000"
-              >
+              <textarea id="description" name="description">
 ${description}</textarea
               >
-              <div class="form-help">
-                详细描述工具的功能、规格、使用注意事项等（可选）
-              </div>
             </div>
 
             <div class="form-group">
               <label for="rentalFee">租金（元/天） *</label>
               <input
-                type="number"
+                type="text"
                 id="rentalFee"
                 name="rentalFee"
-                required
-                placeholder="请输入每天的租金"
                 value="${rentalFee}"
-                min="0"
-                max="999999"
               />
-              <div class="form-help">
-                设置合理的租金，有助于提高工具的借用率
-              </div>
             </div>
 
             <div class="form-actions">
@@ -475,73 +447,10 @@ ${description}</textarea
 
     <script>
       $(document).ready(function () {
-        // 表单提交验证
-        $("#uploadForm").submit(function (e) {
-          const toolName = $("#toolName").val().trim();
-          const rentalFee = $("#rentalFee").val().trim();
-
-          if (!toolName) {
-            e.preventDefault();
-            alert("请输入工具名称");
-            $("#toolName").focus();
-            return false;
-          }
-
-          if (toolName.length > 100) {
-            e.preventDefault();
-            alert("工具名称长度不能超过100个字符");
-            $("#toolName").focus();
-            return false;
-          }
-
-          if (!rentalFee) {
-            e.preventDefault();
-            alert("请输入租金");
-            $("#rentalFee").focus();
-            return false;
-          }
-
-          const fee = parseInt(rentalFee);
-          if (isNaN(fee) || fee < 0) {
-            e.preventDefault();
-            alert("租金必须为非负整数");
-            $("#rentalFee").focus();
-            return false;
-          }
-
-          if (fee > 999999) {
-            e.preventDefault();
-            alert("租金不能超过999999");
-            $("#rentalFee").focus();
-            return false;
-          }
-
-          const description = $("#description").val();
-          if (description.length > 1000) {
-            e.preventDefault();
-            alert("工具描述长度不能超过1000个字符");
-            $("#description").focus();
-            return false;
-          }
-
-          // 显示加载状态
-          const $btn = $("#uploadButton");
-          $btn.prop("disabled", true).html("<span>⏳</span> 上传中...");
-        });
-
         // 自动隐藏消息
         setTimeout(function () {
           $(".alert").fadeOut();
         }, 5000);
-
-        // 输入框焦点效果
-        $("input, textarea")
-          .focus(function () {
-            $(this).parent().addClass("focused");
-          })
-          .blur(function () {
-            $(this).parent().removeClass("focused");
-          });
       });
     </script>
   </body>
