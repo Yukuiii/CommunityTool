@@ -3,7 +3,6 @@ package com.example.communitytool.servlet.provider;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.communitytool.dto.BorrowRecordToolsDTO;
 import com.example.communitytool.dto.ToolsReviewDTO;
 import com.example.communitytool.pojo.User;
 import com.example.communitytool.service.provider.ProviderService;
@@ -44,12 +43,8 @@ public class ProviderDashboardServlet extends HttpServlet {
             // 获取提供者的所有工具
             List<ToolsReviewDTO> providerTools = providerService.getProviderTools(currentUser.getUserId());
             
-            // 获取待审批的租借请求
-            List<BorrowRecordToolsDTO> pendingRequests = providerService.getPendingRentalRequests(currentUser.getUserId());
-            
             // 设置请求属性
             request.setAttribute("providerTools", providerTools);
-            request.setAttribute("pendingRequests", pendingRequests);
             // 转发到仪表盘页面
             request.getRequestDispatcher("/provider/dashboard.jsp").forward(request, response);
             

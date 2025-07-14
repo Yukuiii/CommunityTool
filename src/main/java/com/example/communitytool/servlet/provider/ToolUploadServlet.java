@@ -32,9 +32,6 @@ public class ToolUploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        // 设置请求编码
-        request.setCharacterEncoding("UTF-8");
-        
         // 获取当前登录用户
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
@@ -79,9 +76,6 @@ public class ToolUploadServlet extends HttpServlet {
             request.setAttribute("toolName", toolName);
             request.setAttribute("description", description);
             request.setAttribute("rentalFee", rentalFee);
-            
-            // 记录操作日志
-            System.out.println("工具上传失败: " + toolName + " (提供者: " + currentUser.getUsername() + ")");
             
             request.getRequestDispatcher("/provider/tool-upload.jsp").forward(request, response);
         }

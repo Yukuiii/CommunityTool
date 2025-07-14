@@ -378,7 +378,7 @@
         <!-- 导航菜单 -->
         <div class="nav-menu">
             <ul>
-                <li><a href="${pageContext.request.contextPath}/provider/dashboard">控制台</a></li>
+                <li><a href="${pageContext.request.contextPath}/provider/dashboard">我的工具</a></li>
                 <li><a href="${pageContext.request.contextPath}/provider/tool-upload">上传工具</a></li>
                 <li><a href="${pageContext.request.contextPath}/provider/rental-approval">租借审批</a></li>
                 <li><a href="${pageContext.request.contextPath}/provider/confirm-return-tool" class="active">待确认归还</a></li>

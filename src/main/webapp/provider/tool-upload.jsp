@@ -354,7 +354,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <ul>
           <li>
             <a href="${pageContext.request.contextPath}/provider/dashboard"
-              >控制台</a
+              >我的工具</a
             >
           </li>
           <li>

@@ -5,7 +5,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>工具提供者控制台 - 社区租借系统</title>
+    <title>我的工具 - 社区租借系统</title>
     <!-- 引入jQuery -->
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
@@ -63,10 +63,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 14px;
       }
 
-      .logout-btn:hover {
-        background: #c82333;
-      }
-
       .container {
         max-width: 1200px;
         margin: 0 auto;
@@ -93,13 +89,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         text-decoration: none;
         padding: 12px 20px;
         border-radius: 8px;
-        transition: all 0.3s ease;
         font-weight: 500;
-      }
-
-      .nav-menu a:hover {
-        background: #e3f2fd;
-        color: #007bff;
       }
 
       .nav-menu a.active {
@@ -108,9 +98,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       }
 
       .content-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
         margin-bottom: 40px;
       }
 
@@ -119,6 +106,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border-radius: 12px;
         padding: 25px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
       }
 
       .section-title {
@@ -129,33 +117,36 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border-bottom: 2px solid #e9ecef;
       }
 
-      .tool-item,
-      .request-item {
-        padding: 15px;
-        border: 1px solid #e9ecef;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        transition: all 0.3s ease;
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
       }
 
-      .tool-item:hover,
-      .request-item:hover {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
+      .tool-item,
+      .request-item {
+        padding: 20px;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        background: #fafbfc;
       }
 
       .tool-name,
       .request-tool {
         font-weight: bold;
         color: #2c3e50;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
+        font-size: 18px;
+        line-height: 1.3;
       }
 
       .tool-info,
       .request-info {
         color: #6c757d;
         font-size: 14px;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
+        line-height: 1.4;
       }
 
       .status-badge {
@@ -191,7 +182,9 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       .tool-actions {
         display: flex;
         gap: 10px;
-        margin-top: 15px;
+        margin-top: 20px;
+        justify-content: flex-start;
+        align-items: center;
       }
 
       .btn {
@@ -200,7 +193,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         border-radius: 6px;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s ease;
         text-decoration: none;
         display: inline-block;
         text-align: center;
@@ -212,19 +204,9 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         color: white;
       }
 
-      .btn-success:hover {
-        background: #218838;
-        transform: translateY(-1px);
-      }
-
       .btn-warning {
         background: #ffc107;
         color: #212529;
-      }
-
-      .btn-warning:hover {
-        background: #e0a800;
-        transform: translateY(-1px);
       }
 
       .reviews-section {
@@ -341,12 +323,16 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       }
 
       @media (max-width: 768px) {
-        .content-grid {
+        .tools-grid {
           grid-template-columns: 1fr;
         }
 
         .nav-menu ul {
           flex-direction: column;
+        }
+
+        .tool-item {
+          padding: 15px;
         }
       }
     </style>
@@ -385,7 +371,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
             <a
               href="${pageContext.request.contextPath}/provider/dashboard"
               class="active"
-              >首页</a
+              >我的工具</a
             >
           </li>
           <li>
@@ -426,131 +412,128 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <h2 class="section-title">我的工具</h2>
           <c:choose>
             <c:when test="${not empty providerTools}">
-              <c:forEach
-                var="toolDto"
-                items="${providerTools}"
-                begin="0"
-                end="4"
-              >
-                <div class="tool-item">
-                  <div class="tool-name">${toolDto.tool.toolName}</div>
-                  <div class="tool-info">
-                    租金: ¥${toolDto.tool.rentalFee}/天
-                  </div>
-                  <div class="tool-info">
-                    <span
-                      class="status-badge status-${toolDto.tool.status == '待审核' ? 'pending' : toolDto.tool.status == '闲置' ? 'available' : toolDto.tool.status == '已借出' ? 'rented' : toolDto.tool.status == '已拒绝' ? 'rejected' : 'offline'}"
-                      >${toolDto.tool.status}</span
-                    >
-                    <c:if test="${toolDto.tool.status == '已拒绝'}">
-                      <span class="status-badge status-rejected">
-                        拒绝原因: ${toolDto.tool.reason}
-                      </span>
-                    </c:if>
-                  </div>
-
-                  <!-- 工具管理按钮 -->
-                  <div class="tool-actions">
-                    <c:choose>
-                      <c:when test="${toolDto.tool.status == '闲置'}">
-                        <form
-                          method="post"
-                          action="${pageContext.request.contextPath}/provider/tool-manager"
-                          style="display: inline"
-                        >
-                          <input
-                            type="hidden"
-                            name="toolId"
-                            value="${toolDto.tool.toolId}"
-                          />
-                          <input type="hidden" name="action" value="down" />
-                          <button
-                            type="submit"
-                            class="btn btn-warning"
-                            onclick="return confirm('确定要下架这个工具吗？')"
-                          >
-                            下架工具
-                          </button>
-                        </form>
-                      </c:when>
-                      <c:when test="${toolDto.tool.status == '下架'}">
-                        <form
-                          method="post"
-                          action="${pageContext.request.contextPath}/provider/tool-manager"
-                          style="display: inline"
-                        >
-                          <input
-                            type="hidden"
-                            name="toolId"
-                            value="${toolDto.tool.toolId}"
-                          />
-                          <input type="hidden" name="action" value="up" />
-                          <button
-                            type="submit"
-                            class="btn btn-success"
-                            onclick="return confirm('确定要上架这个工具吗？')"
-                          >
-                            上架工具
-                          </button>
-                        </form>
-                      </c:when>
-                    </c:choose>
-                  </div>
-
-                  <!-- 评价信息展示 -->
-                  <c:if test="${not empty toolDto.reviews}">
-                    <div class="reviews-section">
-                      <div class="reviews-title">
-                        用户评价 (${toolDto.reviews.size()}条)
-                      </div>
-                      <c:forEach
-                        var="review"
-                        items="${toolDto.reviews}"
-                        begin="0"
-                        end="2"
+              <div class="tools-grid">
+                <c:forEach var="toolDto" items="${providerTools}">
+                  <div class="tool-item">
+                    <div class="tool-name">${toolDto.tool.toolName}</div>
+                    <div class="tool-info">
+                      租金: ¥${toolDto.tool.rentalFee}/天
+                    </div>
+                    <div class="tool-info">
+                      <span
+                        class="status-badge status-${toolDto.tool.status == '待审核' ? 'pending' : toolDto.tool.status == '闲置' ? 'available' : toolDto.tool.status == '已借出' ? 'rented' : toolDto.tool.status == '已拒绝' ? 'rejected' : 'offline'}"
+                        >${toolDto.tool.status}</span
                       >
-                        <div class="review-item">
-                          <span class="review-rating">
-                            <c:forEach begin="1" end="${review.rating}"
-                              >★</c:forEach
-                            >
-                            <c:forEach begin="${review.rating + 1}" end="5"
-                              >☆</c:forEach
-                            >
-                          </span>
-                          <span
-                            class="review-status ${review.status == '待审核' ? 'pending' : review.status == '已通过' ? 'approved' : 'rejected'}"
-                          >
-                            ${review.status}
-                          </span>
-                          <c:if test="${not empty review.reviewContent}">
-                            <div class="review-content">
-                              ${review.reviewContent}
-                            </div>
-                          </c:if>
-                          <c:if test="${review.status == '已拒绝'}">
-                            <div class="review-content">
-                              拒绝原因: ${review.reason}
-                            </div>
-                          </c:if>
-                        </div>
-                      </c:forEach>
-                      <c:if test="${toolDto.reviews.size() > 3}">
-                        <div
-                          style="
-                            text-align: center;
-                            margin-top: 8px;
-                            font-size: 12px;
-                            color: #6c757d;
-                          "
-                        >
-                          还有 ${toolDto.reviews.size() - 3} 条评价...
-                        </div>
+                      <c:if test="${toolDto.tool.status == '已拒绝'}">
+                        <span class="status-badge status-rejected">
+                          拒绝原因: ${toolDto.tool.reason}
+                        </span>
                       </c:if>
                     </div>
-                  </c:if>
-                </div>
-              </c:forEach>
+
+                    <!-- 工具管理按钮 -->
+                    <div class="tool-actions">
+                      <c:choose>
+                        <c:when test="${toolDto.tool.status == '闲置'}">
+                          <form
+                            method="post"
+                            action="${pageContext.request.contextPath}/provider/tool-manager"
+                            style="display: inline"
+                          >
+                            <input
+                              type="hidden"
+                              name="toolId"
+                              value="${toolDto.tool.toolId}"
+                            />
+                            <input type="hidden" name="action" value="down" />
+                            <button
+                              type="submit"
+                              class="btn btn-warning"
+                              onclick="return confirm('确定要下架这个工具吗？')"
+                            >
+                              下架工具
+                            </button>
+                          </form>
+                        </c:when>
+                        <c:when test="${toolDto.tool.status == '下架'}">
+                          <form
+                            method="post"
+                            action="${pageContext.request.contextPath}/provider/tool-manager"
+                            style="display: inline"
+                          >
+                            <input
+                              type="hidden"
+                              name="toolId"
+                              value="${toolDto.tool.toolId}"
+                            />
+                            <input type="hidden" name="action" value="up" />
+                            <button
+                              type="submit"
+                              class="btn btn-success"
+                              onclick="return confirm('确定要上架这个工具吗？')"
+                            >
+                              上架工具
+                            </button>
+                          </form>
+                        </c:when>
+                      </c:choose>
+                    </div>
+
+                    <!-- 评价信息展示 -->
+                    <c:if test="${not empty toolDto.reviews}">
+                      <div class="reviews-section">
+                        <div class="reviews-title">
+                          用户评价 (${toolDto.reviews.size()}条)
+                        </div>
+                        <c:forEach
+                          var="review"
+                          items="${toolDto.reviews}"
+                          begin="0"
+                          end="2"
+                        >
+                          <div class="review-item">
+                            <span class="review-rating">
+                              <c:forEach begin="1" end="${review.rating}"
+                                >★</c:forEach
+                              >
+                              <c:forEach begin="${review.rating + 1}" end="5"
+                                >☆</c:forEach
+                              >
+                            </span>
+                            <span
+                              class="review-status ${review.status == '待审核' ? 'pending' : review.status == '已通过' ? 'approved' : 'rejected'}"
+                            >
+                              ${review.status}
+                            </span>
+                            <c:if test="${not empty review.reviewContent}">
+                              <div class="review-content">
+                                ${review.reviewContent}
+                              </div>
+                            </c:if>
+                            <c:if test="${review.status == '已拒绝'}">
+                              <div class="review-content">
+                                拒绝原因: ${review.reason}
+                              </div>
+                            </c:if>
+                          </div>
+                        </c:forEach>
+                        <c:if test="${toolDto.reviews.size() > 3}">
+                          <div
+                            style="
+                              text-align: center;
+                              margin-top: 8px;
+                              font-size: 12px;
+                              color: #6c757d;
+                            "
+                          >
+                            还有 ${toolDto.reviews.size() - 3} 条评价...
+                          </div>
+                        </c:if>
+                      </div>
+                    </c:if>
+                  </div>
+                </c:forEach>
+              </div>
             </c:when>
             <c:otherwise>
               <div class="empty-state">
@@ -560,45 +543,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                     >立即上传</a
                   >
                 </p>
-              </div>
-            </c:otherwise>
-          </c:choose>
-        </div>
-
-        <!-- 待审批请求 -->
-        <div class="content-section">
-          <h2 class="section-title">待审批租借请求</h2>
-          <c:choose>
-            <c:when test="${not empty pendingRequests}">
-              <c:forEach
-                var="request"
-                items="${pendingRequests}"
-                begin="0"
-                end="4"
-              >
-                <div class="request-item">
-                  <div class="request-tool">工具: ${request.tool.toolName}</div>
-                  <div class="request-info">
-                    申请人: ${request.borrowRecord.userId}
-                  </div>
-                  <div class="request-info">
-                    申请时间: ${request.borrowRecord.borrowTime}
-                  </div>
-                </div>
-              </c:forEach>
-              <c:if test="${pendingRequestsCount > 5}">
-                <div style="text-align: center; margin-top: 15px">
-                  <a
-                    href="${pageContext.request.contextPath}/provider/rental-approval"
-                    style="color: #007bff; text-decoration: none"
-                    >查看全部 ${pendingRequestsCount} 个请求 →</a
-                  >
-                </div>
-              </c:if>
-            </c:when>
-            <c:otherwise>
-              <div class="empty-state">
-                <p>暂无待审批请求</p>
               </div>
             </c:otherwise>
           </c:choose>
